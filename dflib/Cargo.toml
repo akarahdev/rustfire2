@@ -1,0 +1,12 @@
+[package]
+name = "rustfire"
+version = "0.4.0"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.133"
+tungstenite = "0.24.0"
+valence_nbt = { version = "0.8.0" }
+base64 = "0.22.1"
+flate2 = "1.0.35"
