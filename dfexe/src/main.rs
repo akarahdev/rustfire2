@@ -7,7 +7,10 @@ use rustfire::api::player::Player;
 fn main() {
     PlayerEvent::join(|| {
         Player::send_message(Component::new("Hello world!"));
-        Player::send_message(Component::cast(Number::new("1") + Number::new("2")));
+        Player::send_message(
+                Component::new("Ok! The solution is: ") +
+                    (Number::new("1.23") / Number::new("2.53"))
+        );
     });
     done();
 }
