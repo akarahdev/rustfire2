@@ -59,6 +59,8 @@ impl PlayerEvent {
         #[doc = "Executes code when a player clicks a slot in their inventory."]
         click_inv_slot as "ClickInvSlot",
         #[doc = "Executes code when a player clicks a slot in a container."]
-        click_container_slot as "ClickContainerSlot"
+        click_container_slot as "ClickContainerSlot",
+        #[doc = "Executes code when a player respawns."]
+        respawn as "Respawn"
     }
 }

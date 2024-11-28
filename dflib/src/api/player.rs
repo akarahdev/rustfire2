@@ -1,7 +1,8 @@
 use std::marker::PhantomData;
-use crate::api::{push_block, CURRENT_TEMPLATE};
+use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE};
 use crate::api::flow::ElseHandle;
 use crate::api::items::any::Any;
+use crate::api::items::boolean::Boolean;
 use crate::api::items::component::Component;
 use crate::api::items::dict::Dictionary;
 use crate::api::items::item::Item;
@@ -10,7 +11,7 @@ use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::VarItem;
 use crate::api::selection::Selection;
-use crate::codetemplate::args::{ChestArgs, Item as DFItem, VarData};
+use crate::codetemplate::args::{ChestArgs, Item as DFItem, NamedData, VarData};
 use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 
 #[derive(Debug, Copy, Clone)]
@@ -127,7 +128,8 @@ impl Player {
         ))
     }
     
-    pub fn is_holding<F: FnOnce()>(&self, item: Item, if_true: F) -> ElseHandle {
+    pub fn is_holding(&self, item: Item) -> Boolean {
+        let mut result = allocate_variable();
         push_block(TemplateBlock::if_player(
             "IsHolding".to_string(),
             "Selection".to_string(),
@@ -135,8 +137,13 @@ impl Player {
                 .with_slot(0, item.as_item())
         ));
         push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
-        if_true();
+        push_block(TemplateBlock::set_variable(
+            "=".to_string(),
+            ChestArgs::new()
+                .with_slot(0, result.clone())
+                .with_slot(1, DFItem::String { data: NamedData { name: "[rf/bool]true".to_string() }})
+        ));
         push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
-        ElseHandle
+        Boolean(result)
     }
 }

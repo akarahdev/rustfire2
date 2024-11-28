@@ -128,6 +128,16 @@ impl TemplateBlock {
             .args(args)
     }
 
+    pub fn if_variable(
+        action: String,
+        args: ChestArgs
+    ) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::IfVariable)
+            .action(action)
+            .args(args)
+    }
+
     pub fn select_object(
         action: String,
         args: ChestArgs

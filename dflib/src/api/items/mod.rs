@@ -8,6 +8,7 @@ pub mod dict;
 pub mod vec;
 pub mod any;
 pub mod item;
+pub mod boolean;
 
 use crate::codetemplate::args::Item;
 
