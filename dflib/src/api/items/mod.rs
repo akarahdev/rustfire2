@@ -5,6 +5,7 @@ pub mod string;
 pub mod intos;
 pub mod list;
 pub mod dict;
+pub mod vec;
 
 use crate::codetemplate::args::Item;
 

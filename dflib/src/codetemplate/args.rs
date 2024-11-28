@@ -38,6 +38,8 @@ pub enum Item {
     BlockTag { data: BlockTagData },
     #[serde(rename = "loc")]
     Location { data: LocData },
+    #[serde(rename = "vec")]
+    Vector { data: VecData },
 }
 
 impl Item {
@@ -104,7 +106,7 @@ pub struct LocValue {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct VecValue {
+pub struct VecData {
     pub x: f64,
     pub y: f64,
     pub z: f64

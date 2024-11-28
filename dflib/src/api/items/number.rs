@@ -1,9 +1,8 @@
 use std::ops::{Add, Div, Mul, Sub};
-use std::sync::atomic::Ordering;
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
 use crate::api::items::VarItem;
 use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
-use crate::codetemplate::template::TemplateBlock;
+use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]
 pub struct Number(pub(crate) Item);
@@ -21,6 +20,34 @@ impl VarItem for Number {
 impl Number {
     pub fn new(raw: &str) -> Number {
         Number(Item::Number { data: NamedData { name: raw.to_string() } })
+    }
+
+    pub fn random_int(min: Number, max: Number) -> Number {
+        let result = allocate_variable();
+        push_block(TemplateBlock::set_variable(
+            "RandomNumber".to_string(),
+            ChestArgs::new()
+                .with_slot(0, result.clone())
+                .with_slot(1, min.as_item())
+                .with_slot(2, max.as_item())
+                .with_slot(26, Item::block_tag("Whole number", "Rounding Mode",
+                        "RandomNumber", BlockType::SetVariable))
+        ));
+        Number(result)
+    }
+
+    pub fn random_decimal(min: Number, max: Number) -> Number {
+        let result = allocate_variable();
+        push_block(TemplateBlock::set_variable(
+            "RandomNumber".to_string(),
+            ChestArgs::new()
+                .with_slot(0, result.clone())
+                .with_slot(1, min.as_item())
+                .with_slot(2, max.as_item())
+                .with_slot(26, Item::block_tag("Decimal number", "Rounding Mode",
+                                               "RandomNumber", BlockType::SetVariable))
+        ));
+        Number(result)
     }
 }
 
