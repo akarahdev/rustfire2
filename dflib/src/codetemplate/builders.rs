@@ -84,6 +84,18 @@ impl TemplateBlock {
             .args(args)
     }
 
+    pub fn if_player(
+        action: String,
+        target: String,
+        args: ChestArgs
+    ) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::IfPlayer)
+            .action(action)
+            .target(target)
+            .args(args)
+    }
+
     pub fn entity_action(
         action: String,
         target: String,

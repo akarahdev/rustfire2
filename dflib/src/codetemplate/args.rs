@@ -1,4 +1,7 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use serde::ser::SerializeStruct;
+use valence_nbt::{Compound, Value};
+use valence_nbt::snbt::{SnbtReader, SnbtWriter};
 use crate::codetemplate::template::BlockType;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -40,6 +43,8 @@ pub enum Item {
     Location { data: LocData },
     #[serde(rename = "vec")]
     Vector { data: VecData },
+    #[serde(rename = "item")]
+    MCItem { data: VanillaItemData },
 }
 
 impl Item {
@@ -110,4 +115,24 @@ pub struct VecData {
     pub x: f64,
     pub y: f64,
     pub z: f64
+}
+
+/// FIXME: make deserialization work, eventually...
+#[derive(Debug, Clone, Deserialize)]
+pub struct VanillaItemData {
+    pub item: Compound
+}
+
+impl Serialize for VanillaItemData {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer
+    {
+        let mut buf = String::new();
+        let mut writer = SnbtWriter::new(&mut buf);
+        writer.write_element(&Value::Compound(self.item.clone()));
+        let mut strct = serializer.serialize_struct("VanillaItemData", 1)?;
+        strct.serialize_field("item", &writer.to_string())?;
+        strct.end()
+    }
 }

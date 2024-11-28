@@ -2,6 +2,7 @@ pub mod player;
 pub mod items;
 pub mod event;
 pub mod selection;
+mod flow;
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
