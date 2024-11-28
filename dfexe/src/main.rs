@@ -1,8 +1,6 @@
-use std::ops::Deref;
 use rustfire::api::player::Player;
-use rustfire::api::selection::{EventDefault, Selection};
-use rustfire::{comp, num, str, subscribe};
-use rustfire::api::items::boolean::Boolean;
+use rustfire::api::selection::EventDefault;
+use rustfire::{comp, subscribe};
 use rustfire::api::items::item::Item;
 
 subscribe! {
@@ -12,6 +10,7 @@ subscribe! {
 }
 
 fn join(default: EventDefault<Player>) {
+    default.send_message(comp!("<click:copy_to_clipboard:'https://gist.github.com/akarahdev/fae0c42b3a268901cce81dc21e58e0b1'>Click to copy source code URL to clipboard!"));
     default.give_item(Item::new("diamond"));
 }
 
