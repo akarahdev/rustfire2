@@ -3,13 +3,23 @@ use crate::api::items::component::Component;
 use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
+use crate::api::selection::Selection;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
+#[derive(Debug, Copy, Clone)]
 pub struct Player;
 
+impl Selection for Player {
+    type Base = Player;
+
+    fn selection_mechanism(&self) -> Self::Base {
+        Player
+    }
+}
+
 impl Player {
-    pub fn send_message(message: Component) {
+    pub fn send_message(&self, message: Component) {
         push_block(TemplateBlock::player_action(
             "SendMessage".to_string(),
             "Selection".to_string(),
@@ -24,7 +34,7 @@ impl Player {
         ))
     }
 
-    pub fn send_action_bar(message: Component) {
+    pub fn send_action_bar(&self, message: Component) {
         push_block(TemplateBlock::player_action(
             "ActionBar".to_string(),
             "Selection".to_string(),
@@ -37,7 +47,7 @@ impl Player {
         ))
     }
 
-    pub fn send_title(title: Component, subtitle: Component,
+    pub fn send_title(&self, title: Component, subtitle: Component,
                       duration: Number, fade_in: Number, fade_out: Number) {
         push_block(TemplateBlock::player_action(
             "SendTitle".to_string(),
@@ -51,7 +61,7 @@ impl Player {
         ))
     }
 
-    pub fn teleport(location: Location) {
+    pub fn teleport(&self, location: Location) {
         push_block(TemplateBlock::player_action(
             "Teleport".to_string(),
             "Selection".to_string(),
@@ -64,7 +74,7 @@ impl Player {
         ))
     }
 
-    pub fn teleport_v(location: Location, keep_velocity: bool, keep_current_rotation: bool) {
+    pub fn teleport_v(&self, location: Location, keep_velocity: bool, keep_current_rotation: bool) {
         push_block(TemplateBlock::player_action(
             "SendMessage".to_string(),
             "Selection".to_string(),
