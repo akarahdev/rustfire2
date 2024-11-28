@@ -36,6 +36,8 @@ pub enum Item {
     Variable { data: VarData },
     #[serde(rename = "bl_tag")]
     BlockTag { data: BlockTagData },
+    #[serde(rename = "loc")]
+    Location { data: LocData },
 }
 
 impl Item {
@@ -83,4 +85,27 @@ pub struct BlockTagData {
 pub struct VarData {
     pub name: String,
     pub scope: String
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct LocData {
+    #[serde(rename = "isBlock")]
+    pub is_block: bool,
+    pub loc: LocValue
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct LocValue {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub pitch: f64,
+    pub yaw: f64
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct VecValue {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64
 }

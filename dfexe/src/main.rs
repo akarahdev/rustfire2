@@ -6,6 +6,7 @@ use rustfire::api::player::Player;
 use rustfire::{comp, dict, list, num, str};
 use rustfire::api::items::dict::Dictionary;
 use rustfire::api::items::list::List;
+use rustfire::api::items::loc::Location;
 use rustfire::api::items::string::String;
 
 fn main() {
@@ -26,6 +27,8 @@ fn main() {
             str!("IHaveAqInMyName") => num!(45.381)
         };
         Player::send_message(comp!("") + dict);
+
+        Player::teleport(Location::new_const(0.0, 100.0, 0.0));
     });
     done();
 }

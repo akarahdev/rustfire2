@@ -1,4 +1,5 @@
 pub mod component;
+pub mod loc;
 pub mod number;
 pub mod string;
 pub mod intos;
