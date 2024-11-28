@@ -1,7 +1,6 @@
 use std::ops::Add;
 use std::sync::atomic::Ordering;
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
-use crate::api::items::refs::Ref;
 use crate::api::items::string::String;
 use crate::api::items::VarItem;
 use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
@@ -20,18 +19,12 @@ impl VarItem for Component {
     }
 }
 
-impl From<Ref<Component>> for Component {
-    fn from(value: Ref<Component>) -> Self {
-        (*value).clone()
-    }
-}
-
 impl Component {
     pub fn new(raw: &str) -> Component {
         Component(Item::Component { data: NamedData { name: raw.to_string() }})
     }
 
-    pub fn cast<T: VarItem>(value: T) -> Ref<Component> {
+    pub fn cast<T: VarItem>(value: T) -> Component {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "StyledText".to_string(),
@@ -43,12 +36,12 @@ impl Component {
                 .with_slot(26, Item::block_tag("No Spaces", "Text Value Merging",
                                                "StyledText", BlockType::SetVariable))
         ));
-        Ref(Component(result))
+        Component(result)
     }
 }
 
 impl<T: VarItem> Add<T> for Component {
-    type Output = Ref<Component>;
+    type Output = Component;
 
     fn add(self, rhs: T) -> Self::Output {
         let result = allocate_variable();
@@ -63,6 +56,6 @@ impl<T: VarItem> Add<T> for Component {
                 .with_slot(26, Item::block_tag("No Spaces", "Text Value Merging",
                                                "StyledText", BlockType::SetVariable))
         ));
-        Ref(Component(result))
+        Component(result)
     }
 }

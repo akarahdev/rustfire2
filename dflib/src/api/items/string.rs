@@ -1,7 +1,6 @@
 use std::ops::Add;
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::component::Component;
-use crate::api::items::refs::Ref;
 use crate::api::items::VarItem;
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
@@ -26,7 +25,7 @@ impl String {
 }
 
 impl<T: VarItem> Add<T> for String {
-    type Output = Ref<String>;
+    type Output = String;
 
     fn add(self, rhs: T) -> Self::Output {
         let result = allocate_variable();
@@ -39,6 +38,6 @@ impl<T: VarItem> Add<T> for String {
                 .with_slot(26, Item::block_tag("No Spaces", "Text Value Merging",
                                                "StyledText", BlockType::SetVariable))
         ));
-        Ref(String(result))
+        String(result)
     }
 }

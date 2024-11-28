@@ -4,7 +4,6 @@ pub mod event;
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;
-use crate::api::items::refs::Ref;
 use crate::codetemplate::args::{Item, VarData};
 use crate::codetemplate::codeclient::send_to_code_client;
 use crate::codetemplate::template::{Template, TemplateBlock};

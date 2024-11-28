@@ -1,6 +1,5 @@
 use std::ops::{Add, Div, Mul, Sub};
 use std::sync::atomic::Ordering;
-use crate::api::items::refs::Ref;
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
 use crate::api::items::VarItem;
 use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
@@ -26,9 +25,9 @@ impl Number {
 }
 
 impl Add for Number {
-    type Output = Ref<Number>;
+    type Output = Number;
 
-    fn add(self, other: Number) -> Ref<Number> {
+    fn add(self, other: Number) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "+".to_string(),
@@ -37,14 +36,14 @@ impl Add for Number {
                 .with_slot(1, self.0)
                 .with_slot(2, other.0),
         ));
-        Ref(Number(result))
+        Number(result)
     }
 }
 
 impl Sub for Number {
-    type Output = Ref<Number>;
+    type Output = Number;
 
-    fn sub(self, other: Number) -> Ref<Number> {
+    fn sub(self, other: Number) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "-".to_string(),
@@ -53,14 +52,14 @@ impl Sub for Number {
                 .with_slot(1, self.0)
                 .with_slot(2, other.0),
         ));
-        Ref(Number(result))
+        Number(result)
     }
 }
 
 impl Mul for Number {
-    type Output = Ref<Number>;
+    type Output = Number;
 
-    fn mul(self, other: Number) -> Ref<Number> {
+    fn mul(self, other: Number) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "*".to_string(),
@@ -69,14 +68,14 @@ impl Mul for Number {
                 .with_slot(1, self.0)
                 .with_slot(2, other.0),
         ));
-        Ref(Number(result))
+        Number(result)
     }
 }
 
 impl Div for Number {
-    type Output = Ref<Number>;
+    type Output = Number;
 
-    fn div(self, other: Number) -> Ref<Number> {
+    fn div(self, other: Number) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "/".to_string(),
@@ -85,6 +84,6 @@ impl Div for Number {
                 .with_slot(1, self.0)
                 .with_slot(2, other.0),
         ));
-        Ref(Number(result))
+        Number(result)
     }
 }

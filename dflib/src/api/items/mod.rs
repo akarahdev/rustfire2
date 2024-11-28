@@ -1,6 +1,5 @@
 pub mod component;
 pub mod number;
-pub mod refs;
 pub mod string;
 pub mod intos;
 pub mod list;
@@ -26,4 +25,20 @@ macro_rules! str {
 #[macro_export]
 macro_rules! comp {
     ($t:expr) => { $crate::api::items::component::Component::new($t) }
+}
+
+#[macro_export]
+macro_rules! list {
+    ($($t:expr),*) => {
+        $crate::api::items::list::List::new_with_all(vec![$($t),*])
+    }
+}
+
+#[macro_export]
+macro_rules! dict {
+    ($($key:expr => $value:expr),*) => {{
+        let _lk = $crate::api::items::list::List::new_with_all(vec![$($key),*]);
+        let _lv = $crate::api::items::list::List::new_with_all(vec![$($value),*]);
+        $crate::api::items::dict::Dictionary::from_lists(_lk, _lv)
+    }}
 }
