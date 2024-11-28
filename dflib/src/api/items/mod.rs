@@ -6,6 +6,7 @@ pub mod intos;
 pub mod list;
 pub mod dict;
 pub mod vec;
+pub mod any;
 
 use crate::codetemplate::args::Item;
 
@@ -13,6 +14,8 @@ pub trait VarItem: Clone {
     fn as_item(&self) -> Item;
     fn from_item(item: Item) -> Self;
 }
+
+pub trait TypedVarItem: VarItem {}
 
 #[macro_export]
 macro_rules! num {

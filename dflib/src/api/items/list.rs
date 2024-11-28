@@ -1,12 +1,13 @@
 use std::marker::PhantomData;
 use crate::api::items::string::String;
-use crate::api::items::VarItem;
+use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]
 pub struct List<T: VarItem>(Item, PhantomData<T>);
+impl<T: VarItem> TypedVarItem for List<T> {}
 
 impl<T: VarItem> VarItem for List<T> {
     fn as_item(&self) -> Item {

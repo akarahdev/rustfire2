@@ -2,12 +2,13 @@ use std::ops::Add;
 use std::sync::atomic::Ordering;
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
 use crate::api::items::string::String;
-use crate::api::items::VarItem;
+use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]
 pub struct Component(pub(crate) Item);
+impl TypedVarItem for Component {}
 
 impl VarItem for Component {
     fn as_item(&self) -> Item {

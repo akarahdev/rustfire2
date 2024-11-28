@@ -1,10 +1,14 @@
+use std::marker::PhantomData;
 use crate::api::{push_block, CURRENT_TEMPLATE};
+use crate::api::items::any::Any;
 use crate::api::items::component::Component;
+use crate::api::items::dict::Dictionary;
 use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
+use crate::api::items::string::String;
 use crate::api::items::VarItem;
 use crate::api::selection::Selection;
-use crate::codetemplate::args::{ChestArgs, Item};
+use crate::codetemplate::args::{ChestArgs, Item, VarData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Copy, Clone)]
@@ -13,8 +17,24 @@ pub struct Player;
 impl Selection for Player {
     type Base = Player;
 
-    fn selection_mechanism(&self) -> Self::Base {
-        Player
+    fn selection_mechanism(&self) {
+        
+    }
+}
+
+impl Player {
+    pub fn game_data(&self) -> Dictionary<String, Any> {
+        Dictionary(
+            Item::Variable { data: VarData { name: "rf/%uuid/d".to_string(), scope: "unsaved".to_string() } },
+            PhantomData
+        )
+    }
+
+    pub fn saved_data(&self) -> Dictionary<String, Any> {
+        Dictionary(
+            Item::Variable { data: VarData { name: "rf/%uuid/sd".to_string(), scope: "saved".to_string() } },
+            PhantomData
+        )
     }
 }
 

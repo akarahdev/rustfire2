@@ -1,11 +1,12 @@
 use std::ops::{Add, Div, Mul, Sub};
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
-use crate::api::items::VarItem;
+use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]
 pub struct Number(pub(crate) Item);
+impl TypedVarItem for Number {}
 
 impl VarItem for Number {
     fn as_item(&self) -> Item {
