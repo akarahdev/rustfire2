@@ -22,4 +22,8 @@ impl<T: VarItem> VarItem for Ref<T> {
     fn as_item(&self) -> Item {
         self.0.as_item()
     }
+
+    fn from_item(item: Item) -> Self {
+        Ref(T::from_item(item))
+    }
 }

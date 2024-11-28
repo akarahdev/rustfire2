@@ -13,6 +13,10 @@ impl VarItem for String {
     fn as_item(&self) -> Item {
         self.0.clone()
     }
+
+    fn from_item(item: Item) -> Self {
+        String(item)
+    }
 }
 
 impl String {

@@ -14,6 +14,10 @@ impl VarItem for Component {
     fn as_item(&self) -> Item {
         self.0.clone()
     }
+
+    fn from_item(item: Item) -> Self {
+        Component(item)
+    }
 }
 
 impl From<Ref<Component>> for Component {

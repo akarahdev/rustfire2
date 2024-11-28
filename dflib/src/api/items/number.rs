@@ -13,6 +13,10 @@ impl VarItem for Number {
     fn as_item(&self) -> Item {
         self.0.clone()
     }
+
+    fn from_item(item: Item) -> Self {
+        Number(item)
+    }
 }
 
 impl Number {
