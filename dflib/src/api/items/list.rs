@@ -187,7 +187,7 @@ impl<T: VarItem> List<T> {
         self
     }
 
-    pub fn reversed(&self) -> &Self {
+    pub fn reverse(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "ReverseList".to_string(),
             ChestArgs::new()

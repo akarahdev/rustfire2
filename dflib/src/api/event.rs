@@ -4,19 +4,50 @@ use crate::api::selection::EventDefault;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, Template, TemplateBlock};
 
+pub struct Functions;
+
+impl Functions {
+    pub fn declare<F: FnOnce()>(name: &str, f: F) {
+        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
+        push_block(TemplateBlock::function(name.to_string()));
+        f();
+        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
+    }
+}
+
+pub struct Processes;
+
+impl Processes {
+    pub fn declare<F: FnOnce()>(name: &str, f: F) {
+        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
+        push_block(TemplateBlock::process(name.to_string()));
+        f();
+        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
+    }
+    
+    pub fn call(name: &str) {
+        push_block(TemplateBlock::start_process(name.to_string()));
+    }
+}
+
 pub struct PlayerEvent;
 
 #[macro_export]
 macro_rules! subscribe {
     (
-        $($function_name:ident for $category:ident::$event_name:ident());*
-        ;
+        plot_id: $name:expr;
+        $($remainder:tt)*
     ) => {
         fn main() {
-            $(rustfire::api::event::$category::$event_name($function_name);)*
-            rustfire::api::done();
+            subscribe!($($remainder)*);
         }
     };
+    ($function_name:ident for $category:ident::$event_name:ident();
+    $($remainder:tt)*) => {
+        $(rustfire::api::event::$category::$event_name($function_name);)*
+        subscri
+    };
+    () => { rustfire::api::done(); }
 }
 
 #[macro_use]

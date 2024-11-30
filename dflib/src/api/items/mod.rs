@@ -47,5 +47,10 @@ macro_rules! dict {
         let _lk = $crate::api::items::list::List::new_with_all(vec![$($key),*]);
         let _lv = $crate::api::items::list::List::new_with_all(vec![$($value),*]);
         $crate::api::items::dict::Dictionary::from_lists(_lk, _lv)
-    }}
+    }};
+}
+
+#[macro_export]
+macro_rules! start {
+    ($name:ident) => { $crate::api::event::Processes::call(stringify!($name)); }
 }

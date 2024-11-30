@@ -1,27 +1,23 @@
+use rustfire::{comp, headers, num, start};
+use rustfire::api::event::PlayerEvent;
+use rustfire::api::flow::{Control, Duration, Repeat};
 use rustfire::api::player::Player;
 use rustfire::api::selection::EventDefault;
-use rustfire::{comp, num, subscribe};
-use rustfire::api::items::item::Item;
-use rustfire::api::items::list::List;
-use rustfire::api::items::number::Number;
 
-subscribe! {
-    join for PlayerEvent::join();
-    leave for PlayerEvent::leave();
+headers! {
+    PlayerEvent::join => fn on_join;
+    Process::player_loop => fn player_loop;
 }
 
-fn join(default: EventDefault<Player>) {
-    let other = List::new();
-    other.append(num!(20));
-    let list = List::new();
-    list.append(num!(10));
-    list.append_list(other)
-        .flatten()
-        .reversed()
-        .randomize();
-    default.send_message(comp!("") + list);
+pub fn on_join(default: EventDefault<Player>) {
+    default.send_message(comp!("Hello world!"));
+    
+    start!(player_loop);
 }
 
-fn leave(default: EventDefault<Player>) {
-
+pub fn player_loop() {
+    Repeat::forever(|| {
+        EventDefault::player().send_message(comp!("Repeating!!"));
+        Control::wait(Duration::ticks(1));    
+    });
 }

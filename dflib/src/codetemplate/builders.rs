@@ -1,4 +1,4 @@
-use crate::codetemplate::args::ChestArgs;
+use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockId, BlockType, BracketDirection, BracketType, TemplateBlock};
 
 impl TemplateBlock {
@@ -72,10 +72,45 @@ impl TemplateBlock {
             .action(event)
     }
 
+    pub fn function(event: String) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::Function)
+            .data(event)
+            .args(
+                ChestArgs::new()
+                    .with_slot(26, Item::block_tag("True", "Is Hidden",
+                                                   "dynamic", BlockType::Function))
+            )
+    }
+
+    pub fn process(event: String) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::Process)
+            .data(event)
+            .args(
+                ChestArgs::new()
+                    .with_slot(26, Item::block_tag("True", "Is Hidden",
+                                                   "dynamic", BlockType::Process))
+            )
+    }
+
+    pub fn start_process(event: String) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::StartProcess)
+            .data(event)
+            .args(
+                ChestArgs::new()
+                    .with_slot(25, Item::block_tag("Don't copy", "Local Variables",
+                                                   "dynamic", BlockType::StartProcess))
+                    .with_slot(26, Item::block_tag("With current targets", "Target Mode",
+                                                   "dynamic", BlockType::StartProcess))
+            )
+    }
+
     pub fn player_action(
         action: String,
         target: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::PlayerAction)
@@ -87,7 +122,7 @@ impl TemplateBlock {
     pub fn if_player(
         action: String,
         target: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::IfPlayer)
@@ -99,7 +134,7 @@ impl TemplateBlock {
     pub fn entity_action(
         action: String,
         target: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::EntityAction)
@@ -110,7 +145,7 @@ impl TemplateBlock {
 
     pub fn game_action(
         action: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::GameAction)
@@ -120,7 +155,7 @@ impl TemplateBlock {
 
     pub fn set_variable(
         action: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::SetVariable)
@@ -130,7 +165,7 @@ impl TemplateBlock {
 
     pub fn if_variable(
         action: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::IfVariable)
@@ -140,11 +175,31 @@ impl TemplateBlock {
 
     pub fn select_object(
         action: String,
-        args: ChestArgs
+        args: ChestArgs,
     ) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::SelectObject)
             .action(action)
+            .args(args)
+    }
+
+    pub fn repeat(
+        action: &str ,
+        args: ChestArgs,
+    ) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::Repeat)
+            .action(action.to_string())
+            .args(args)
+    }
+
+    pub fn control(
+        action: &str ,
+        args: ChestArgs,
+    ) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::Control)
+            .action(action.to_string())
             .args(args)
     }
 }

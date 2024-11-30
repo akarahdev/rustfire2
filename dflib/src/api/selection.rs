@@ -2,6 +2,7 @@ use std::fmt::{Debug, Display, Formatter};
 use std::ops::Deref;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
+use crate::api::player::Player;
 use crate::api::push_block;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
@@ -75,6 +76,12 @@ impl<C: Selection> Selection for EventDefault<C> {
                                                "EventTarget", BlockType::SelectObject)),
         ));
         self.0.selection_mechanism()
+    }
+}
+
+impl EventDefault<Player> {
+    pub fn player() -> Self {
+        EventDefault(Player)
     }
 }
 
