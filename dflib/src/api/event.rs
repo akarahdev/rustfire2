@@ -1,5 +1,6 @@
 use crate::api::player::Player;
 use crate::api::{push_block, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
+use crate::api::entity::Entity;
 use crate::api::selections::targets::EventDefault;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, Template, TemplateBlock};
@@ -35,24 +36,6 @@ impl Processes {
 }
 
 pub struct PlayerEvent;
-
-#[macro_export]
-macro_rules! subscribe {
-    (
-        plot_id: $name:expr;
-        $($remainder:tt)*
-    ) => {
-        fn main() {
-            subscribe!($($remainder)*);
-        }
-    };
-    ($function_name:ident for $category:ident::$event_name:ident();
-    $($remainder:tt)*) => {
-        $(rustfire::api::event::$category::$event_name($function_name);)*
-        subscri
-    };
-    () => { rustfire::api::done(); }
-}
 
 #[macro_use]
 macro_rules! default_event {
@@ -97,5 +80,37 @@ impl PlayerEvent {
         click_container_slot as "ClickContainerSlot",
         #[doc = "Executes code when a player respawns."]
         respawn as "Respawn"
+    }
+}
+
+pub struct EntityEvent;
+
+#[macro_use]
+macro_rules! make_entity_event {
+    ($($(#[doc = $comment:expr])? $name:ident as $sign:expr),*) => {
+        $(
+            $(
+                #[doc = $comment]
+            )?
+            pub fn $name<F: FnOnce(EventDefault<Entity>)>(f: F) {
+                CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
+                push_block(TemplateBlock::entity_event($sign.to_string()));
+                f(EventDefault(Entity));
+                TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
+            }
+        )*
+    };
+}
+
+impl EntityEvent {
+    make_entity_event! {
+        damage_entity as "EntityDmgEntity",
+        kill_entity as "EntityKillEntity",
+        take_damage as "EntityTakeDmg",
+        proj_damage as "ProjDmgEntity",
+        proj_kill as "ProjKillEntity",
+        death as "EntityDeath",
+        explode as "EntityExplode",
+        teleport as "EntityTeleport"
     }
 }

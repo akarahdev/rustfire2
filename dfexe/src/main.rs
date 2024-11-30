@@ -5,12 +5,16 @@ use rustfire::{call, comp, headers, num, start};
 use rustfire::api::cf::control::Control;
 use rustfire::api::cf::repeat::Repeat;
 use rustfire::api::cf::time::Duration;
+use rustfire::api::entity::Entity;
+use rustfire::api::items::loc::Location;
 use rustfire::api::player::Player;
 
 headers! {
     PlayerEvent::join => fn on_join;
     PlayerEvent::respawn => fn on_respawn;
 
+    EntityEvent::take_damage => fn on_dmg;
+    
     Function::give_kit => fn give_kit;
 
     Process::player_loop => fn player_loop;
@@ -45,4 +49,8 @@ pub fn player_loop() {
         EventDefault::player().send_action_bar(comp!("Hi!!"));
         Control::wait(Duration::ticks(1));
     });
+}
+
+pub fn on_dmg(entity: EventDefault<Entity>) {
+    entity.teleport(Location::new_const(25.5, 50.5, 25.5));
 }

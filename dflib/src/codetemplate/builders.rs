@@ -72,6 +72,12 @@ impl TemplateBlock {
             .action(event)
     }
 
+    pub fn entity_event(event: String) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::EntityEvent)
+            .action(event)
+    }
+
     pub fn function(event: String) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::Function)

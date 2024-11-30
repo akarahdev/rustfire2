@@ -1,5 +1,6 @@
 use std::fmt::{Display, Formatter};
 use std::ops::Deref;
+use crate::api::entity::Entity;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
 use crate::api::player::Player;
@@ -69,6 +70,12 @@ impl<C: Selection> Selection for EventDefault<C> {
 impl EventDefault<Player> {
     pub fn player() -> Self {
         EventDefault(Player)
+    }
+}
+
+impl EventDefault<Entity> {
+    pub fn entity() -> Self {
+        EventDefault(Entity)
     }
 }
 
