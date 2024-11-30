@@ -1,6 +1,5 @@
 pub mod items;
 pub mod event;
-pub mod declarations;
 pub mod cf;
 pub mod selections;
 pub mod player;

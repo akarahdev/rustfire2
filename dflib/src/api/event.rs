@@ -35,82 +35,52 @@ impl Processes {
     }
 }
 
-pub struct PlayerEvent;
-
-#[macro_use]
-macro_rules! default_event {
-    ($($(#[doc = $comment:expr])? $name:ident as $sign:expr),*) => {
-        $(
-            $(
-                #[doc = $comment]
-            )?
-            pub fn $name<F: FnOnce(EventDefault<Player>)>(f: F) {
-                CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
-                push_block(TemplateBlock::player_event($sign.to_string()));
-                f(EventDefault(Player));
-                TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
-            }
-        )*
-    };
+pub enum PlayerEvent {
+    Join,
+    Leave,
+    RightClick,
+    LeftClick,
+    RightClickEntity,
+    LeftClickEntity,
+    Respawn
 }
 
 impl PlayerEvent {
-    default_event! {
-        #[doc = "Executes code when a player joins the plot."]
-        join as "Join",
-        #[doc = "Executes code when a player leaves the plot."]
-        leave as "Leave",
-        #[doc = "Executes code when a player right clicks."]
-        right_click as "RightClick",
-        #[doc = "Executes code when a player left clicks."]
-        left_click as "LeftClick",
-        #[doc = "Executes code when a player right clicks an entity."]
-        right_click_entity as "RightClickEntity",
-        #[doc = "Executes code when a player left clicks an entity."]
-        left_click_entity as "LeftClickEntity",
-        #[doc = "Executes code when a player places a block."]
-        place_block as "PlaceBlock",
-        #[doc = "Executes code when a player breaks a block."]
-        break_block as "BreakBlock",
-        #[doc = "Executes code when a player clicks a slot in a custom menu."]
-        click_menu_slot as "ClickMenuSlot",
-        #[doc = "Executes code when a player clicks a slot in their inventory."]
-        click_inv_slot as "ClickInvSlot",
-        #[doc = "Executes code when a player clicks a slot in a container."]
-        click_container_slot as "ClickContainerSlot",
-        #[doc = "Executes code when a player respawns."]
-        respawn as "Respawn"
+    pub fn name(&self) -> String {
+        match self {
+            PlayerEvent::Join => "Join",
+            PlayerEvent::Leave => "Leave",
+            PlayerEvent::RightClick => "RightClick",
+            PlayerEvent::LeftClick => "LeftClick",
+            PlayerEvent::RightClickEntity => "RightClickEntity",
+            PlayerEvent::LeftClickEntity => "LeftClickEntity",
+            PlayerEvent::Respawn => "Respawn",
+        }.to_string()
+    }
+    
+    pub fn declare(&self, code: fn()) {
+        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
+        push_block(TemplateBlock::player_event(self.name()));
+        code();
+        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
     }
 }
 
-pub struct EntityEvent;
-
-#[macro_use]
-macro_rules! make_entity_event {
-    ($($(#[doc = $comment:expr])? $name:ident as $sign:expr),*) => {
-        $(
-            $(
-                #[doc = $comment]
-            )?
-            pub fn $name<F: FnOnce(EventDefault<Entity>)>(f: F) {
-                CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
-                push_block(TemplateBlock::entity_event($sign.to_string()));
-                f(EventDefault(Entity));
-                TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
-            }
-        )*
-    };
+pub enum EntityEvent {
+    Teleport
 }
 
 impl EntityEvent {
-    make_entity_event! {
-        damage_entity as "EntityDmgEntity",
-        kill_entity as "EntityKillEntity",
-        take_damage as "EntityTakeDmg",
-        proj_damage as "ProjDmgEntity",
-        proj_kill as "ProjKillEntity",
-        death as "EntityDeath",
-        explode as "EntityExplode",
-        teleport as "EntityTeleport"
+    pub fn name(&self) -> String {
+        match self {
+            EntityEvent::Teleport => "Teleport",
+        }.to_string()
+    }
+
+    pub fn declare(&self, code: fn()) {
+        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
+        push_block(TemplateBlock::entity_event(self.name()));
+        code();
+        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
     }
 }
