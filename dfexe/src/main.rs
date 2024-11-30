@@ -11,7 +11,6 @@ headers! {
 
 pub fn on_join(default: EventDefault<Player>) {
     default.send_message(comp!("Hello world!"));
-    
     start!(player_loop);
 }
 
