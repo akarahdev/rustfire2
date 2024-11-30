@@ -1,9 +1,9 @@
 pub mod player;
 pub mod items;
 pub mod event;
-pub mod selection;
 pub mod declarations;
 pub mod cf;
+pub mod selections;
 
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;

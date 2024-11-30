@@ -1,25 +1,12 @@
-use std::fmt::{Debug, Display, Formatter};
+use std::fmt::{Display, Formatter};
 use std::ops::Deref;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
 use crate::api::player::Player;
 use crate::api::push_block;
+use crate::api::selections::Selection;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
-
-pub trait Selection: Clone + Debug {
-    type Base;
-
-    fn selection_mechanism(&self);
-
-    fn filter_random(&self) -> FilterRandomly<Self> {
-        FilterRandomly(self.clone(), Number::new("1"))
-    }
-
-    fn filter_random_amount(&self, amount: Number) -> FilterRandomly<Self> {
-        FilterRandomly(self.clone(), amount)
-    }
-}
 
 #[derive(Clone, Debug)]
 enum Target {

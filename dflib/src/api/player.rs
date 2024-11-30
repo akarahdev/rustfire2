@@ -8,7 +8,7 @@ use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::VarItem;
-use crate::api::selection::Selection;
+use crate::api::selections::Selection;
 use crate::codetemplate::args::{ChestArgs, Item as DFItem, NamedData, VarData};
 use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 

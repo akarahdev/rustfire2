@@ -1,6 +1,6 @@
 pub use rustfire::api as df;
 use rustfire::api::items::item::Item;
-use rustfire::api::selection::EventDefault;
+use rustfire::api::selections::targets::EventDefault;
 use rustfire::{call, comp, headers, num, start};
 use rustfire::api::cf::control::Control;
 use rustfire::api::cf::repeat::Repeat;
