@@ -13,6 +13,10 @@ impl Functions {
         f();
         TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
     }
+
+    pub fn call(name: &str) {
+        push_block(TemplateBlock::call_function(name.to_string()));
+    }
 }
 
 pub struct Processes;

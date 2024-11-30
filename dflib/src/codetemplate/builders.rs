@@ -83,6 +83,15 @@ impl TemplateBlock {
             )
     }
 
+    pub fn call_function(event: String) -> TemplateBlock {
+        TemplateBlock::default()
+            .block(BlockType::CallFunction)
+            .data(event)
+            .args(
+                ChestArgs::new()
+            )
+    }
+
     pub fn process(event: String) -> TemplateBlock {
         TemplateBlock::default()
             .block(BlockType::Process)

@@ -40,7 +40,7 @@ impl Item {
                     .with_slot(2, id.as_item().clone())
             )
         );
-        self.clone()
+        Item(result)
     }
 
     pub fn with_count(&self, count: Number) -> Item {
@@ -54,6 +54,6 @@ impl Item {
                     .with_slot(2, count.as_item().clone())
             )
         );
-        self.clone()
+        Item(result)
     }
 }
