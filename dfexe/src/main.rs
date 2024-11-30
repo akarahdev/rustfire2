@@ -18,22 +18,26 @@ headers! {
 
 pub fn give_kit() {
     let default = EventDefault::player();
-    default.give_item(Item::new("minecraft:mace"));
-    default.give_item(Item::new("minecraft:diamond_helmet"));
-    default.give_item(Item::new("minecraft:diamond_chestplate"));
-    default.give_item(Item::new("minecraft:diamond_leggings"));
-    default.give_item(Item::new("minecraft:diamond_boots"));
-    default.give_item(Item::new("minecraft:wind_charge").with_count(num!(16)));
+    default.give_items(&[
+        Item::new("minecraft:mace"),
+        Item::new("minecraft:wind_charge")
+            .with_count(num!(16)),
+        Item::new("minecraft:diamond_helmet"),
+        Item::new("minecraft:diamond_chestplate"),
+        Item::new("minecraft:diamond_leggings"),
+        Item::new("minecraft:diamond_boots")
+    ]);
 }
 
 pub fn on_join(default: EventDefault<Player>) {
     default.send_message(comp!("Hello world!"));
     start!(player_loop);
     call!(give_kit);
+    default.save_inventory();
 }
 
 pub fn on_respawn(default: EventDefault<Player>) {
-    call!(give_kit);
+    default.load_inventory();
 }
 
 pub fn player_loop() {
