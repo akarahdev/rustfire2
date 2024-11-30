@@ -9,7 +9,7 @@ pub struct PlayerEvent;
 #[macro_export]
 macro_rules! subscribe {
     (
-        $($function_name:ident for $category:ident $event_name:ident);*
+        $($function_name:ident for $category:ident::$event_name:ident());*
         ;
     ) => {
         fn main() {

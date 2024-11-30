@@ -1,29 +1,27 @@
 use rustfire::api::player::Player;
 use rustfire::api::selection::EventDefault;
-use rustfire::{comp, subscribe};
+use rustfire::{comp, num, subscribe};
 use rustfire::api::items::item::Item;
+use rustfire::api::items::list::List;
+use rustfire::api::items::number::Number;
 
 subscribe! {
-    join for PlayerEvent join;
-    respawn for PlayerEvent respawn;
-    right_click for PlayerEvent right_click;
+    join for PlayerEvent::join();
+    leave for PlayerEvent::leave();
 }
 
 fn join(default: EventDefault<Player>) {
-    default.send_message(comp!("<click:copy_to_clipboard:'https://gist.github.com/akarahdev/fae0c42b3a268901cce81dc21e58e0b1'>Click to copy source code URL to clipboard!"));
-    default.give_item(Item::new("diamond"));
+    let other = List::new();
+    other.append(num!(20));
+    let list = List::new();
+    list.append(num!(10));
+    list.append_list(other)
+        .flatten()
+        .reversed()
+        .randomize();
+    default.send_message(comp!("") + list);
 }
 
-fn respawn(default: EventDefault<Player>) {
-    default.give_item(Item::new("diamond"));
-}
+fn leave(default: EventDefault<Player>) {
 
-fn right_click(default: EventDefault<Player>) {
-    let is_holding = default.is_holding(Item::new("diamond"));
-    is_holding.if_true(|| {
-        default.launch_proj(Item::new("minecraft:fire_charge"));
-    }).or_else(|| {
-        default.send_message(comp!("Hold a diamond to shoot a fireball!"))
-    });
 }
-
