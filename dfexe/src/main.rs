@@ -1,7 +1,6 @@
-pub use rustfire::api as df;
 use rustfire::api::items::item::Item;
 use rustfire::api::selections::targets::EventDefault;
-use rustfire::{call, comp, num, start};
+use rustfire::{call, comp, num, registry, start};
 use rustfire::api::cf::control::Control;
 use rustfire::api::cf::repeat::Repeat;
 use rustfire::api::cf::time::Duration;
@@ -11,8 +10,9 @@ use rustfire::api::headers::functions::Functions;
 use rustfire::api::headers::player::PlayerEvent;
 use rustfire::api::headers::processes::Processes;
 use rustfire::api::items::loc::Location;
+use rustfire::api::items::number::Number;
 
-fn main() {
+registry!({
     PlayerEvent::Join.declare(on_join);
     PlayerEvent::Respawn.declare(on_respawn);
 
@@ -21,7 +21,7 @@ fn main() {
     Functions::declare("give_kit", give_kit);
 
     done();
-}
+});
 
 pub fn give_kit() {
     EventDefault::player().give_items(&[
@@ -33,6 +33,8 @@ pub fn give_kit() {
         Item::new("minecraft:diamond_leggings"),
         Item::new("minecraft:diamond_boots")
     ]);
+
+    EventDefault::player().send_message(comp!("Matrix is: ") + sum.as_list());
 }
 
 pub fn on_join() {
