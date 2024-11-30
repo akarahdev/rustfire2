@@ -1,6 +1,5 @@
 use std::marker::PhantomData;
 use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE};
-use crate::api::flow::ElseHandle;
 use crate::api::items::any::Any;
 use crate::api::items::component::Component;
 use crate::api::items::dict::Dictionary;
