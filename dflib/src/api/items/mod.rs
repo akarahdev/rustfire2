@@ -51,10 +51,10 @@ macro_rules! dict {
 
 #[macro_export]
 macro_rules! start {
-    ($name:ident) => { $crate::api::event::Processes::call(stringify!($name)); }
+    ($name:ident) => { $crate::api::headers::processes::Processes::call(stringify!($name)); }
 }
 
 #[macro_export]
 macro_rules! call {
-    ($name:ident) => { $crate::api::event::Functions::call(stringify!($name)); }
+    ($name:ident) => { $crate::api::headers::functions::Functions::call(stringify!($name)); }
 }

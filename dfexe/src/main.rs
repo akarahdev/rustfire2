@@ -7,7 +7,9 @@ use rustfire::api::cf::repeat::Repeat;
 use rustfire::api::cf::time::Duration;
 use rustfire::api::done;
 use rustfire::api::entity::Entity;
-use rustfire::api::event::{Functions, PlayerEvent, Processes};
+use rustfire::api::headers::functions::Functions;
+use rustfire::api::headers::player::PlayerEvent;
+use rustfire::api::headers::processes::Processes;
 use rustfire::api::items::loc::Location;
 
 fn main() {
