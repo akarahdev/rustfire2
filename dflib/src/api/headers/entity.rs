@@ -1,4 +1,4 @@
-use crate::api::{push_block, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
+use crate::api::{push_block, start_new_template, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
 use crate::codetemplate::template::{Template, TemplateBlock};
 
 pub enum EntityEvent {
@@ -12,10 +12,10 @@ impl EntityEvent {
         }.to_string()
     }
 
-    pub fn declare(&self, code: fn()) {
-        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
-        push_block(TemplateBlock::entity_event(self.name()));
-        code();
-        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
+    pub fn declare(self, code: fn()) {
+        start_new_template(move || {
+            push_block(TemplateBlock::entity_event(self.name().to_string()));
+            code();
+        });
     }
 }

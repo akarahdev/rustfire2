@@ -1,3 +1,4 @@
+use std::time::Instant;
 use rustfire::api::items::item::Item;
 use rustfire::api::selections::targets::EventDefault;
 use rustfire::{call, comp, num, registry, start};
@@ -33,14 +34,14 @@ pub fn give_kit() {
         Item::new("minecraft:diamond_leggings"),
         Item::new("minecraft:diamond_boots")
     ]);
-
-    EventDefault::player().send_message(comp!("Matrix is: ") + sum.as_list());
 }
 
 pub fn on_join() {
     EventDefault::player().send_message(comp!("Hello world!"));
+    
     start!(player_loop);
     call!(give_kit);
+    
     EventDefault::player().save_inventory();
 }
 

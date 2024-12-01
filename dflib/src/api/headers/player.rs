@@ -1,6 +1,7 @@
-use crate::api::{push_block, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
+use crate::api::{push_block, start_new_template, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
 use crate::codetemplate::template::{Template, TemplateBlock};
 
+#[derive(Copy, Clone)]
 pub enum PlayerEvent {
     Join,
     Leave,
@@ -24,10 +25,10 @@ impl PlayerEvent {
         }.to_string()
     }
 
-    pub fn declare(&self, code: fn()) {
-        CURRENT_TEMPLATE.lock().unwrap().blocks = vec![];
-        push_block(TemplateBlock::player_event(self.name()));
-        code();
-        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks: CURRENT_TEMPLATE.lock().unwrap().blocks.clone() });
+    pub fn declare<F: FnOnce() + Send + 'static>(self, code: F) {
+        start_new_template(move || {
+            push_block(TemplateBlock::player_event(self.name().to_string()));
+            code();
+        });
     }
 }
