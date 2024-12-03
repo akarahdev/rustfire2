@@ -77,7 +77,7 @@ impl Repeat {
         push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Sticky));
     }
 
-    pub fn range<F: FnOnce(Location)>(start: Location, end: Location, code: F) {
+    pub fn grid<F: FnOnce(Location)>(start: Location, end: Location, code: F) {
         let idx = allocate_variable();
         push_block(TemplateBlock::repeat(
             "Grid",
