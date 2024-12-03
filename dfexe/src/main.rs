@@ -43,6 +43,7 @@ pub fn on_join() {
     call!(give_kit);
     
     EventDefault::player().save_inventory();
+    EventDefault::player().teleport(Location::new_const(10.0, 50.0, 10.0));
 }
 
 pub fn on_respawn() {

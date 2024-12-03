@@ -21,9 +21,9 @@ impl Selection for Player {
 }
 
 pub(crate) macro player_action(
-fn $name:ident => $action:expr,
-        $(arg $arg_name:ident : $arg_type:ty,)*
-        $(tag $tag_name:expr => $tag_value:expr,)*
+fn $name:ident => $action:expr;
+        $(arg $arg_name:ident : $arg_type:ty;)*
+        $(tag $tag_name:expr => $tag_value:expr;)*
 ) {
     impl $crate::api::player::Player {
         pub fn $name(&self, $($arg_name: $arg_type),*) {
@@ -33,7 +33,7 @@ fn $name:ident => $action:expr,
                 $crate::codetemplate::args::ChestArgs::new()
                     $(.with_slot(${index()}, $arg_name.as_item()))*
                     $(
-                        .with_slot(26-${index()},
+                        .with_slot(26-( ${len(0)} - ${index(0)} - 1 ),
                             $crate::codetemplate::args::Item::block_tag($tag_value, $tag_name,
                             $action, $crate::codetemplate::template::BlockType::PlayerAction)))*
             ))
