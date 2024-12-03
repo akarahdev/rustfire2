@@ -1,9 +1,8 @@
 use crate::api::{allocate_variable, push_block};
-use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::{set_variable_with_self, TypedVarItem, VarItem};
-use crate::codetemplate::args::{BlockTagData, ChestArgs, Item, LocData, LocValue, NamedData, VarData, VecData};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::codetemplate::args::{ChestArgs, Item, VecData};
+use crate::codetemplate::template::TemplateBlock;
 
 #[derive(Debug, Clone)]
 pub struct Vector(pub(crate) Item);

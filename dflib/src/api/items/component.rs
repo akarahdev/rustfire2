@@ -1,9 +1,7 @@
 use std::ops::Add;
-use std::sync::atomic::Ordering;
-use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
-use crate::api::items::string::String;
+use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
-use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
+use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]

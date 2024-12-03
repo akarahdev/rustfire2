@@ -2,6 +2,9 @@
 
 use std::io::{Read, Write};
 use std::net::TcpStream;
+use base64::alphabet::STANDARD;
+use base64::Engine;
+use base64::engine::{GeneralPurpose, GeneralPurposeConfig};
 use flate2::Compression;
 use flate2::write::GzEncoder;
 use tungstenite::{accept, connect, ClientRequestBuilder, Message};
@@ -28,7 +31,10 @@ pub fn send_to_code_client(
                     let json_encoded = serde_json::to_string(&template).unwrap();
                     let mut gzip_encoder = GzEncoder::new(Vec::new(), Compression::default());
                     gzip_encoder.write_all(json_encoded.as_bytes()).unwrap();
-                    let base64_encoded = base64::encode(gzip_encoder.finish().unwrap());
+                    let base64_encoded = GeneralPurpose::new(
+                        &STANDARD,
+                        GeneralPurposeConfig::new()
+                    ).encode(gzip_encoder.finish().unwrap());
 
                     println!("Encoded: {}", &json_encoded);
                     println!("Base64: {}", &base64_encoded);

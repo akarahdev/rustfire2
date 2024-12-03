@@ -7,7 +7,6 @@ use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::ChestArgs;
 use crate::codetemplate::args::Item as DFItem;
 use crate::codetemplate::template::{BlockType, TemplateBlock};
-use crate::num;
 
 pub enum EquipmentSlot {
     MainHand,

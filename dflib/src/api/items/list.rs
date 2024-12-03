@@ -1,5 +1,4 @@
 use std::marker::PhantomData;
-use crate::api::items::string::String;
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::number::Number;
@@ -155,7 +154,6 @@ impl<T: VarItem> List<T> {
     }
 
     pub fn dedup(&self) -> &Self {
-        let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "DedupList".to_string(),
             ChestArgs::new()
@@ -165,7 +163,6 @@ impl<T: VarItem> List<T> {
     }
 
     pub fn trim(&self, start: Number, end: Number) -> &Self {
-        let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "TrimList".to_string(),
             ChestArgs::new()

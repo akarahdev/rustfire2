@@ -1,5 +1,5 @@
-use crate::api::{push_block, start_new_template, CURRENT_TEMPLATE, TEMPLATE_REPOSITORY};
-use crate::codetemplate::template::{Template, TemplateBlock};
+use crate::api::{push_block, start_new_template};
+use crate::codetemplate::template::TemplateBlock;
 
 pub struct Processes;
 

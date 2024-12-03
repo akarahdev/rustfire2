@@ -1,7 +1,7 @@
 use crate::api::items::component::Component;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
-use crate::api::player::{player_action, Player};
+use crate::api::player::player_action;
 
 player_action! {
     fn send_message => "SendMessage";

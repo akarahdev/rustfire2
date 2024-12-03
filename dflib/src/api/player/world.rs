@@ -3,7 +3,7 @@ use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::VarItem;
-use crate::api::player::{player_action, Player};
+use crate::api::player::player_action;
 
 player_action! {
     fn launch_proj => "LaunchProj";

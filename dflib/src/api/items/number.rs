@@ -1,7 +1,7 @@
 use std::ops::{Add, Div, Mul, Sub};
-use crate::api::{allocate_variable, push_block, CURRENT_TEMPLATE, VAR_INDEX};
+use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
-use crate::codetemplate::args::{ChestArgs, Item, NamedData, VarData};
+use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone)]

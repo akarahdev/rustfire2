@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize, Serializer};
+use serde::{Deserialize, Serialize};
 use crate::codetemplate::args::ChestArgs;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

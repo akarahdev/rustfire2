@@ -67,8 +67,8 @@ impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
 ) {
     impl $inn {
         pub fn $name(&self, $($arg_name: $arg_type),*) -> $out {
-            let v: Vec<&'static str> = vec![$($tag_value,)*];
-            let length = v.len() as u8;
+            let _v: Vec<&'static str> = vec![$($tag_value,)*];
+            let _length = _v.len() as u8;
             let result = $crate::api::allocate_variable();
             $crate::api::push_block($crate::codetemplate::template::TemplateBlock::set_variable(
                 $action.to_string(),
@@ -77,9 +77,9 @@ impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
                     .with_slot(1, self.as_item())
                     $(.with_slot(${index()}+2, $arg_name.as_item()))*
                     $(
-                        .with_slot(26- (length - ${index()} - 1),
+                        .with_slot(26- (_length - ${index()} - 1),
                             $crate::codetemplate::args::Item::block_tag($tag_value, $tag_name,
-                            $action, $crate::codetemplate::template::BlockType::PlayerAction)))*
+                            $action, $crate::codetemplate::template::BlockType::SetVariable)))*
             ));
             <$out>::from_item(result)
         }

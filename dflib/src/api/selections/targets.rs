@@ -1,4 +1,3 @@
-use std::fmt::{Display, Formatter};
 use std::ops::Deref;
 use crate::api::entity::Entity;
 use crate::api::items::number::Number;
@@ -8,30 +7,6 @@ use crate::api::push_block;
 use crate::api::selections::Selection;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
-
-#[derive(Clone, Debug)]
-enum Target {
-    Default,
-    Killer,
-    Damager,
-    Victim,
-    Shooter,
-    Projectile,
-}
-
-impl Display for Target {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str(match self {
-            Target::Default => "Default",
-            Target::Killer => "Killer",
-            Target::Damager => "Damager",
-            Target::Victim => "Victim",
-            Target::Shooter => "Shooter",
-            Target::Projectile => "Projectile",
-        })?;
-        Ok(())
-    }
-}
 
 macro_rules! impl_deref_for_sel {
     ($($name:ident),*) => {

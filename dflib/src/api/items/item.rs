@@ -5,9 +5,7 @@ use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::codetemplate::args::{ChestArgs, VanillaItemData};
-use crate::codetemplate::template::BlockType::SetVariable;
 use crate::codetemplate::template::TemplateBlock;
-use crate::comp;
 
 #[derive(Clone, Debug)]
 pub struct Item(pub(crate) DFItem);

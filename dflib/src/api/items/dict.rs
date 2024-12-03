@@ -1,5 +1,4 @@
 use std::marker::PhantomData;
-use std::ops::Index;
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::list::List;
 use crate::api::items::{TypedVarItem, VarItem};
