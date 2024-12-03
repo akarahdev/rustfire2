@@ -27,16 +27,18 @@ fn $name:ident => $action:expr;
 ) {
     impl $crate::api::player::Player {
         pub fn $name(&self, $($arg_name: $arg_type),*) {
+            let v: Vec<&'static str> = vec![$($tag_value,)*];
+            let length = v.len() as u8;
             $crate::api::push_block($crate::codetemplate::template::TemplateBlock::player_action(
                 $action.to_string(),
                 "Selection".to_string(),
                 $crate::codetemplate::args::ChestArgs::new()
                     $(.with_slot(${index()}, $arg_name.as_item()))*
                     $(
-                        .with_slot(26-( ${len(0)} - ${index(0)} - 1 ),
+                        .with_slot(26-(length - ${index()} - 1),
                             $crate::codetemplate::args::Item::block_tag($tag_value, $tag_name,
                             $action, $crate::codetemplate::template::BlockType::PlayerAction)))*
-            ))
+            ));
         }
     }
 }
