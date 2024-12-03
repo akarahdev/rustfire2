@@ -1,7 +1,7 @@
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
-use crate::api::items::{TypedVarItem, VarItem};
+use crate::api::items::{set_variable_with_self, TypedVarItem, VarItem};
 use crate::codetemplate::args::{BlockTagData, ChestArgs, Item, LocData, LocValue, NamedData, VarData, VecData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
@@ -42,97 +42,37 @@ impl Vector {
         ));
         Vector(result)
     }
+}
 
-    pub fn from_between_locations(loc1: Location, loc2: Location) -> Vector {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "VectorBetween".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, loc1.as_item().clone())
-                .with_slot(2, loc2.as_item().clone()),
-        ));
-        Vector(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (x => "GetVectorComp") -> Number;
+    tag "Component" => "X";
+}
 
-    pub fn x(&self) -> Number {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "GetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(26, Item::block_tag("X", "Component",
-                                               "GetVectorComp", BlockType::SetVariable)),
-        ));
-        Number(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (y => "GetVectorComp") -> Number;
+    tag "Component" => "Y";
+}
 
-    pub fn y(&self) -> Number {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "GetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(26, Item::block_tag("Y", "Component",
-                                               "GetVectorComp", BlockType::SetVariable)),
-        ));
-        Number(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (z => "GetVectorComp") -> Number;
+    tag "Component" => "z";
+}
 
-    pub fn z(&self) -> Number {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "GetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(26, Item::block_tag("Z", "Component",
-                                               "GetVectorComp", BlockType::SetVariable)),
-        ));
-        Number(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (with_x => "SetVectorComp") -> Vector;
+    arg value: Number;
+    tag "Component" => "X";
+}
 
-    pub fn with_x(&self, new_coord: Number) -> Vector {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "SetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(2, new_coord.as_item().clone())
-                .with_slot(26, Item::block_tag("X", "Component",
-                                               "SetVectorComp", BlockType::SetVariable)),
-        ));
-        Vector(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (with_y => "SetVectorComp") -> Vector;
+    arg value: Number;
+    tag "Component" => "Y";
+}
 
-    pub fn with_y(&self, new_coord: Number) -> Vector {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "SetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(2, new_coord.as_item().clone())
-                .with_slot(26, Item::block_tag("Y", "Component",
-                                               "SetVectorComp", BlockType::SetVariable)),
-        ));
-        Vector(result)
-    }
-
-    pub fn with_z(&self, new_coord: Number) -> Vector {
-        let result = allocate_variable();
-        push_block(TemplateBlock::set_variable(
-            "SetVectorComp".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, self.as_item().clone())
-                .with_slot(2, new_coord.as_item().clone())
-                .with_slot(26, Item::block_tag("Z", "Component",
-                                               "SetVectorComp", BlockType::SetVariable)),
-        ));
-        Vector(result)
-    }
+set_variable_with_self! {
+    impl Vector; fn (with_z => "SetVectorComp") -> Vector;
+    arg value: Number;
+    tag "Component" => "Z";
 }

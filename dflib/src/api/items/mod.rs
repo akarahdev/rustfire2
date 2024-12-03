@@ -58,3 +58,28 @@ macro_rules! start {
 macro_rules! call {
     ($name:ident) => { $crate::api::headers::functions::Functions::call(stringify!($name)); }
 }
+
+pub(crate) macro set_variable_with_self(
+
+impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
+        $(arg $arg_name:ident : $arg_type:ty;)*
+        $(tag $tag_name:expr => $tag_value:expr;)*
+) {
+    impl $inn {
+        pub fn $name(&self, $($arg_name: $arg_type),*) -> $out {
+            let result = $crate::api::allocate_variable();
+            $crate::api::push_block($crate::codetemplate::template::TemplateBlock::set_variable(
+                $action.to_string(),
+                $crate::codetemplate::args::ChestArgs::new()
+                    .with_slot(0, result.clone())
+                    .with_slot(1, self.as_item())
+                    $(.with_slot(${index()}+2, $arg_name.as_item()))*
+                    $(
+                        .with_slot(26- ( ${len(0)} - ${index(0)} - 1),
+                            $crate::codetemplate::args::Item::block_tag($tag_value, $tag_name,
+                            $action, $crate::codetemplate::template::BlockType::PlayerAction)))*
+            ));
+            <$out>::from_item(result)
+        }
+    }
+}

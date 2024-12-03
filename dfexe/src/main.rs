@@ -12,6 +12,7 @@ use rustfire::api::headers::player::PlayerEvent;
 use rustfire::api::headers::processes::Processes;
 use rustfire::api::items::loc::Location;
 use rustfire::api::items::number::Number;
+use rustfire::api::items::vec::Vector;
 
 registry!({
     PlayerEvent::Join.declare(on_join);
@@ -55,6 +56,14 @@ pub fn player_loop() {
         EventDefault::player().send_action_bar(comp!("Hi!!"));
         Control::wait(Duration::ticks(1));
     });
+
+    // let vec = Vector::new_const(0.0, 0.0, 0.0)
+    //     .with_x(Number::random_decimal(num!(10), num!(20)))
+    //     .with_y(Number::random_decimal(num!(10), num!(20)))
+    //     .with_z(Number::random_decimal(num!(10), num!(20)));
+    //
+    // EventDefault::player().send_message(comp!("") + vec);
+
 }
 
 pub fn on_dmg(entity: EventDefault<Entity>) {
