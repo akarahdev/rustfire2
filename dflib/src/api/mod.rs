@@ -4,11 +4,16 @@ pub mod selections;
 pub mod player;
 pub mod entity;
 pub mod headers;
+mod config;
 
 use std::cell::UnsafeCell;
+use std::cmp::max;
+use std::ops::Deref;
+use std::path::Path;
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
-use std::sync::Mutex;
+use std::sync::{LazyLock, Mutex};
 use std::time::Instant;
+use crate::api::config::{Config, PlotRank};
 use crate::codetemplate::args::{Item, VarData};
 use crate::codetemplate::codeclient::send_to_code_client;
 use crate::codetemplate::template::{Template, TemplateBlock};
@@ -24,6 +29,7 @@ thread_local! {
 pub static TEMPLATE_REPOSITORY: Mutex<Vec<Template>> = Mutex::new(vec![]);
 pub static VAR_INDEX: AtomicU64 = AtomicU64::new(0);
 pub static THREAD_COUNTER: AtomicUsize = AtomicUsize::new(0);
+pub static COMPILER_CONFIG: LazyLock<Config> = LazyLock::new(|| read_config());
 
 /// Use this macro to register your DiamondFire events for plots.
 #[macro_export]
@@ -81,6 +87,20 @@ pub(crate) fn push_block(template_block: TemplateBlock) {
     });
 }
 
+pub(crate) fn read_config() -> Config {
+    let file = std::fs::read_to_string(Path::new("./Rustfire.toml"))
+        .expect("expected a Rustfire.toml at crate root");
+    let config: Config = toml::from_str(&file).expect("expected a validly formatted Rustfire.toml");
+    config
+}
+
+pub(crate) fn assert_rank(rank: PlotRank) {
+    let current_rank = &COMPILER_CONFIG.owner.rank;
+    if (*current_rank as u8) < (rank as u8) {
+        panic!("One of your actions requires {:?} to use!", rank);
+    }
+}
+
 pub fn done() {
     let start = Instant::now();
     let mut time = 1;
@@ -89,8 +109,17 @@ pub fn done() {
         time += 1;
     }
     let end = Instant::now();
+    println!("{:?}", end - start);
+    
     let templates = TEMPLATE_REPOSITORY.lock().unwrap().clone();
 
-    println!("{:?}", end - start);
+    let max_length = COMPILER_CONFIG.plot.size as u16;
+    for template in &templates {
+        if template.blocks.len() > max_length as usize {
+            panic!("Error on block {:?}: {} blocks exceeds max length of {}",
+                template.blocks.first().unwrap(), template.blocks.len(), max_length);
+        }
+    }
+    
     send_to_code_client(templates);
 }
