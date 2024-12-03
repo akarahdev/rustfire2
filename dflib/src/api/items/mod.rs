@@ -59,8 +59,7 @@ macro_rules! call {
     ($name:ident) => { $crate::api::headers::functions::Functions::call(stringify!($name)); }
 }
 
-pub(crate) macro set_variable_with_self(
-
+pub(crate) macro set_variable(
 impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
         $(arg $arg_name:ident : $arg_type:ty;)*
         $(tag $tag_name:expr => $tag_value:expr;)*

@@ -2,7 +2,7 @@ use crate::api::cf::time::Duration;
 use crate::api::items::item::Item;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
-use crate::api::player::Player;
+use crate::api::player::{player_action, Player};
 use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::ChestArgs;
 use crate::codetemplate::args::Item as DFItem;
@@ -17,16 +17,78 @@ pub enum EquipmentSlot {
     Boots,
 }
 
-impl Player {
-    pub fn give_item(&self, item: Item) {
-        push_block(TemplateBlock::player_action(
-            "GiveItems".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item()),
-        ))
-    }
 
+player_action! {
+    fn give_item => "GiveItems";
+
+    arg item: Item;
+}
+
+
+player_action! {
+    fn set_item_in_slot => "SetItemInSlot";
+
+    arg item: Item;
+    arg slot: Number;
+}
+
+player_action! {
+    fn set_armor => "SetArmor";
+
+    arg helmet: Item;
+    arg chestplate: Item;
+    arg leggings: Item;
+    arg boots: Item;
+}
+
+player_action! {
+    fn remove_item => "RemoveItems";
+
+    arg item: Item;
+}
+
+player_action! {
+    fn replace_item => "ReplaceItems";
+
+    arg original: Item;
+    arg new: Item;
+}
+
+player_action! {
+    fn clear_item => "ClearItems";
+
+    arg item: Item;
+}
+
+
+player_action! {
+    fn set_cursor_item => "SetCursorItem";
+
+    arg item: Item;
+}
+
+player_action! {
+    fn save_inventory => "SaveInv";
+}
+
+player_action! {
+    fn load_inventory => "LoadInv";
+}
+
+player_action! {
+    fn set_item_cooldown => "SetItemCooldown";
+
+    arg item: Item;
+    arg cooldown: Number;
+}
+
+player_action! {
+    fn get_item_cooldown => "GetItemCooldown" => Number;
+
+    arg item: Item;
+}
+
+impl Player {
     pub fn give_items(&self, items: &[Item]) {
         let mut args = ChestArgs::new();
         for item in items.iter().enumerate() {
@@ -36,16 +98,6 @@ impl Player {
             "GiveItems".to_string(),
             "Selection".to_string(),
             args,
-        ))
-    }
-
-    pub fn set_item_in_slot(&self, slot: Number, item: Item) {
-        push_block(TemplateBlock::player_action(
-            "GiveItems".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item())
-                .with_slot(1, slot.as_item()),
         ))
     }
 
@@ -69,83 +121,5 @@ impl Player {
                     BlockType::PlayerAction,
                 )),
         ))
-    }
-
-    pub fn replace_item(&self, original: Item, new: Item) {
-        push_block(TemplateBlock::player_action(
-            "ReplaceItems".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, original.as_item())
-                .with_slot(1, new.as_item()),
-        ))
-    }
-
-    pub fn clear_item(&self, item: Item) {
-        push_block(TemplateBlock::player_action(
-            "ClearItems".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item()),
-        ))
-    }
-
-    pub fn clear_inv(&self) {
-        push_block(TemplateBlock::player_action(
-            "ClearItems".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(25, DFItem::block_tag("True", "Clear Crafting and Cursor",
-                                                 "ClearItems", BlockType::PlayerAction))
-                .with_slot(26, DFItem::block_tag("Entire inventory", "Clear mode",
-                                                 "ClearItems", BlockType::PlayerAction)),
-        ))
-    }
-
-    pub fn set_cursor_item(&self, item: Item) {
-        push_block(TemplateBlock::player_action(
-            "SetCursorItem".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item())
-        ))
-    }
-
-    pub fn save_inventory(&self) {
-        push_block(TemplateBlock::player_action(
-            "SaveInv".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-        ))
-    }
-
-    pub fn load_inventory(&self) {
-        push_block(TemplateBlock::player_action(
-            "LoadInv".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-        ))
-    }
-
-    pub fn set_item_cooldown(&self, item: Item, cooldown: Duration) {
-        push_block(TemplateBlock::player_action(
-            "SetItemCooldown".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item())
-                .with_slot(1, Number::new(&*cooldown.0.to_string()).as_item())
-        ))
-    }
-
-    pub fn get_item_cooldown(&self, item: Item) -> Number {
-        let result = allocate_variable();
-        push_block(TemplateBlock::player_action(
-            "GetItemCooldown".to_string(),
-            "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
-                .with_slot(1, item.as_item())
-        ));
-        Number(result)
     }
 }

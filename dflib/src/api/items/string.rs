@@ -1,6 +1,6 @@
 use std::ops::Add;
 use crate::api::{allocate_variable, push_block};
-use crate::api::items::{set_variable_with_self, TypedVarItem, VarItem};
+use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
@@ -42,7 +42,7 @@ impl<T: VarItem> Add<T> for String {
     }
 }
 
-set_variable_with_self! {
+set_variable! {
     impl String; fn (replace => "ReplaceString") -> String;
     arg from: String;
     arg to: String;
@@ -51,7 +51,7 @@ set_variable_with_self! {
     tag "Regular Expression" => "Disable";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl String; fn (replace_regex => "ReplaceString") -> String;
     arg from: String;
     arg to: String;

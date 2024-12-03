@@ -1,6 +1,6 @@
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::number::Number;
-use crate::api::items::{set_variable_with_self, TypedVarItem, VarItem};
+use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, VecData};
 use crate::codetemplate::template::TemplateBlock;
 
@@ -43,34 +43,34 @@ impl Vector {
     }
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (x => "GetVectorComp") -> Number;
     tag "Component" => "X";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (y => "GetVectorComp") -> Number;
     tag "Component" => "Y";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (z => "GetVectorComp") -> Number;
     tag "Component" => "z";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (with_x => "SetVectorComp") -> Vector;
     arg value: Number;
     tag "Component" => "X";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (with_y => "SetVectorComp") -> Vector;
     arg value: Number;
     tag "Component" => "Y";
 }
 
-set_variable_with_self! {
+set_variable! {
     impl Vector; fn (with_z => "SetVectorComp") -> Vector;
     arg value: Number;
     tag "Component" => "Z";
