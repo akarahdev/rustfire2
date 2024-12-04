@@ -7,14 +7,10 @@ pub mod headers;
 pub mod config;
 
 use std::cell::UnsafeCell;
-use std::cmp::max;
-use std::fmt::{Debug, Formatter};
-use std::ops::Deref;
 use std::path::Path;
-use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{LazyLock, Mutex};
 use std::time::Instant;
-use const_format::formatcp;
 use crate::api::config::{Config, PlotRank};
 use crate::codetemplate::args::{Item, VarData};
 use crate::codetemplate::codeclient::send_to_code_client;

@@ -1,7 +1,4 @@
-use serde::{Serialize, Serializer};
-use serde::ser::SerializeStruct;
-use valence_nbt::{Compound, Value};
-use valence_nbt::snbt::SnbtWriter;
+use serde::Serialize;
 use crate::codetemplate::template::BlockType;
 
 #[derive(Serialize, Debug, Clone)]

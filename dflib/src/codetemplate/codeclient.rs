@@ -9,7 +9,6 @@ use flate2::Compression;
 use flate2::write::GzEncoder;
 use tungstenite::{accept, connect, ClientRequestBuilder, Message};
 use tungstenite::http::Uri;
-use valence_nbt::Tag::String;
 use crate::api::COMPILER_CONFIG;
 use crate::codetemplate::template::{Template, TemplateBlock};
 

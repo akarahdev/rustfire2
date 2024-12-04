@@ -3,7 +3,6 @@ use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
-use crate::comp;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Component(pub(crate) Item);

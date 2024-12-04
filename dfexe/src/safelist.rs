@@ -34,7 +34,7 @@ impl<T: VarItem> SafeList<T> {
     pub fn get(&self, index: Number) -> Optional<T> {
         let s = self.clone();
         Functions::declare_with_return(Functions::allocate_name(), move || {
-            let mut out = Optional::empty();
+            let out = Optional::empty();
             index.if_less_than_or_equal(s.inner.len(), || {
                 Optional::new(s.inner.get(index));
             });

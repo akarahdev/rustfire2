@@ -3,10 +3,6 @@ mod optional;
 
 use rustfire::{comp, num, registry};
 use rustfire::api::headers::player::PlayerEvent;
-use rustfire::api::items::any::Any;
-use rustfire::api::items::dict::Dictionary;
-use rustfire::api::items::list::List;
-use rustfire::api::items::string::String;
 use rustfire::api::selections::targets::EventDefault;
 use crate::safelist::SafeList;
 

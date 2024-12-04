@@ -1,5 +1,3 @@
-use valence_nbt::Compound;
-use valence_nbt::{Value};
 use crate::api::{allocate_variable, push_block, Item as DFItem};
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::items::number::Number;
