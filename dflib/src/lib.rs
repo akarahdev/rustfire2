@@ -4,3 +4,4 @@
 
 pub mod api;
 pub mod codetemplate;
+pub mod std;
