@@ -14,7 +14,7 @@ use crate::api::push_block;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BracketDirection, BracketType, TemplateBlock};
 
-pub trait VarItem: Clone {
+pub trait VarItem: Clone + Copy {
     fn as_item(&self) -> Item;
     fn from_item(item: Item) -> Self;
     fn default() -> Self;

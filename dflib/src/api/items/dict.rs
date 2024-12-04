@@ -4,7 +4,7 @@ use crate::api::items::list::List;
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::TemplateBlock;
-
+#[derive(Copy)]
 pub struct Dictionary<K: VarItem, V: VarItem>(pub(crate) Item, pub(crate) PhantomData<(K, V)>);
 impl<K: VarItem, V: VarItem> TypedVarItem for Dictionary<K, V> {}
 

@@ -4,7 +4,7 @@ use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, VecData};
 use crate::codetemplate::template::TemplateBlock;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Vector(pub(crate) Item);
 impl TypedVarItem for Vector {}
 

@@ -4,7 +4,7 @@ use rustfire::api::items::VarItem;
 use rustfire::codetemplate::args::Item;
 use crate::optional::Optional;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct SafeList<T: VarItem> {
     inner: List<T>,
 }
@@ -32,7 +32,7 @@ impl<T: VarItem> SafeList<T> {
     
     pub fn get(&self, index: Number) -> Optional<T> {
         let mut out = Optional::empty();
-        index.clone().if_less_than_or_equal(self.inner.len(), || {
+        index.if_less_than_or_equal(self.inner.len(), || {
             out = Optional::new(self.inner.get(index)); 
         });
         out

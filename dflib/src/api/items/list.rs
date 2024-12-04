@@ -5,7 +5,7 @@ use crate::api::items::number::Number;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct List<T: VarItem>(Item, PhantomData<T>);
 impl<T: VarItem> TypedVarItem for List<T> {}
 

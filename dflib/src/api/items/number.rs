@@ -4,7 +4,7 @@ use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Number(pub(crate) Item);
 impl TypedVarItem for Number {}
 
@@ -23,8 +23,8 @@ impl VarItem for Number {
 }
 
 impl Number {
-    pub fn new(raw: &str) -> Number {
-        Number(Item::Number { data: NamedData { name: raw.to_string() } })
+    pub fn new(raw: &'static str) -> Number {
+        Number(Item::Number { data: NamedData { name: raw } })
     }
 
     pub fn random_int(min: Number, max: Number) -> Number {

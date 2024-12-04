@@ -5,15 +5,16 @@ pub mod player;
 pub mod entity;
 pub mod headers;
 pub mod config;
-pub mod abstraction;
 
 use std::cell::UnsafeCell;
 use std::cmp::max;
+use std::fmt::{Debug, Formatter};
 use std::ops::Deref;
 use std::path::Path;
 use std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 use std::sync::{LazyLock, Mutex};
 use std::time::Instant;
+use const_format::formatcp;
 use crate::api::config::{Config, PlotRank};
 use crate::codetemplate::args::{Item, VarData};
 use crate::codetemplate::codeclient::send_to_code_client;
@@ -28,7 +29,7 @@ thread_local! {
 }
 
 pub static TEMPLATE_REPOSITORY: Mutex<Vec<Template>> = Mutex::new(vec![]);
-pub static VAR_INDEX: AtomicU64 = AtomicU64::new(0);
+pub static VAR_INDEX: AtomicUsize = AtomicUsize::new(0);
 pub static THREAD_COUNTER: AtomicUsize = AtomicUsize::new(0);
 pub static COMPILER_CONFIG: LazyLock<Config> = LazyLock::new(|| read_config());
 
@@ -53,11 +54,14 @@ macro_rules! export_registry {
     };
 }
 
+const VAR_STRING: [&'static str; 9999] = include!(concat!(env!("OUT_DIR"), "/variables.rs"));
+
 pub(crate) fn allocate_variable() -> Item {
+    let fetched = VAR_INDEX.fetch_add(3, Ordering::AcqRel);
     Item::Variable {
         data: VarData {
-            name: VAR_INDEX.fetch_add(1, Ordering::AcqRel).to_string(),
-            scope: "line".to_string(),
+            name: &VAR_STRING[fetched],
+            scope: "line",
         }
     }
 }
@@ -111,7 +115,7 @@ pub fn done() {
     }
     let end = Instant::now();
     println!("{:?}", end - start);
-    
+
     let templates = TEMPLATE_REPOSITORY.lock().unwrap().clone();
 
     let max_length = COMPILER_CONFIG.plot.size as u16;
@@ -121,6 +125,6 @@ pub fn done() {
                 template.blocks.first().unwrap(), template.blocks.len(), max_length);
         }
     }
-    
+
     send_to_code_client(templates);
 }

@@ -3,7 +3,7 @@ use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::items::number::Number;
 use crate::codetemplate::args::{Item, NamedData};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Any(pub(crate) Item);
 
 impl VarItem for Any {
@@ -29,7 +29,7 @@ impl<T: TypedVarItem> From<T> for Any {
 
 impl Any {
     pub fn empty() -> Self {
-        Any(Item::Number { data: NamedData { name: "0".to_string() }})
+        Any(Item::Number { data: NamedData { name: "0" }})
     }
 
     pub fn from_value<V: VarItem>(v: V) -> Any {

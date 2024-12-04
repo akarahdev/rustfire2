@@ -4,12 +4,11 @@ use rustfire::api::items::string::String;
 use rustfire::api::items::VarItem;
 use rustfire::api::items::any::Any;
 use rustfire::{comp, num, str};
-use rustfire::api::abstraction::Abstraction;
 use rustfire::api::cf::control::Control;
 use rustfire::api::selections::targets::EventDefault;
 use rustfire::codetemplate::args::Item as DFItem;
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct Optional<T: VarItem> {
     dict: Dictionary<String, Any>,
     phantom: PhantomData<T>,
@@ -36,7 +35,7 @@ impl<T: VarItem> Optional<T> {
         dict.put(str!("is_present"), num!(1).into());
         Optional { dict, phantom: PhantomData }
     }
-    
+
     pub fn empty() -> Optional<T> {
         let dict: Dictionary<String, Any> = Dictionary::new();
         dict.put(str!("is_present"), num!(0).into());

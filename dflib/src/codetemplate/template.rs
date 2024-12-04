@@ -1,12 +1,12 @@
-use serde::{Deserialize, Serialize};
+use serde::{Serialize};
 use crate::codetemplate::args::ChestArgs;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub struct Template {
     pub blocks: Vec<TemplateBlock>
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub enum BlockId {
     #[serde(rename = "block")]
     Block,
@@ -20,7 +20,7 @@ impl Default for BlockId {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub enum BracketDirection {
     #[serde(rename = "open")]
     Start,
@@ -28,7 +28,7 @@ pub enum BracketDirection {
     End
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub enum BracketType {
     #[serde(rename = "norm")]
     Normal,
@@ -36,7 +36,7 @@ pub enum BracketType {
     Sticky
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, Copy)]
 pub enum BlockType {
     #[serde(rename = "call_func")]
     CallFunction,
@@ -76,7 +76,7 @@ pub enum BlockType {
     StartProcess,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+#[derive(Serialize, Debug, Default, Clone)]
 pub struct TemplateBlock {
     pub(crate) id: BlockId,
 

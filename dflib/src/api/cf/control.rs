@@ -1,4 +1,6 @@
 use crate::api::cf::time::Duration;
+use crate::api::items::number::Number;
+use crate::api::items::VarItem;
 use crate::api::push_block;
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
@@ -6,11 +8,11 @@ use crate::codetemplate::template::{BlockType, TemplateBlock};
 pub struct Control;
 
 impl Control {
-    pub fn wait(dur: Duration) {
+    pub fn wait(dur: Number) {
         push_block(TemplateBlock::control(
             "Wait",
             ChestArgs::new()
-                .with_slot(0, Item::Number { data: NamedData { name: dur.0.to_string() } })
+                .with_slot(0, dur.as_item())
                 .with_slot(26, Item::block_tag("Ticks", "Time Unit",
                                                "Wait", BlockType::Control)),
         ));

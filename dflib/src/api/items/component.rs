@@ -5,7 +5,7 @@ use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 use crate::comp;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Component(pub(crate) Item);
 impl TypedVarItem for Component {}
 
@@ -24,8 +24,8 @@ impl VarItem for Component {
 }
 
 impl Component {
-    pub fn new(raw: &str) -> Component {
-        Component(Item::Component { data: NamedData { name: raw.to_string() }})
+    pub fn new(raw: &'static str) -> Component {
+        Component(Item::Component { data: NamedData { name: raw }})
     }
 
     pub fn cast<T: VarItem>(value: T) -> Component {

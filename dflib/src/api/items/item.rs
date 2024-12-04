@@ -4,10 +4,10 @@ use crate::api::{allocate_variable, push_block, Item as DFItem};
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
-use crate::codetemplate::args::{ChestArgs, VanillaItemData};
+use crate::codetemplate::args::ChestArgs;
 use crate::codetemplate::template::TemplateBlock;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub struct Item(pub(crate) DFItem);
 impl TypedVarItem for Item {}
 impl VarItem for Item {
@@ -25,10 +25,17 @@ impl VarItem for Item {
 }
 
 impl Item {
-    pub fn new(id: &str) -> Item {
-        let mut cmpd = Compound::new();
-        cmpd.insert("id", Value::String(id.to_string()));
-        Item(DFItem::MCItem { data: VanillaItemData { item: cmpd }})
+    pub fn new(id: &'static str) -> Item {
+        let result = allocate_variable();
+        push_block(
+            TemplateBlock::set_variable(
+                "SetItemType".to_string(),
+                ChestArgs::new()
+                    .with_slot(0, result.clone())
+                    .with_slot(1, String::new(id).as_item())
+            )
+        );
+        Item(result)
     }
 
     pub fn with_type(&self, id: String) -> Item {

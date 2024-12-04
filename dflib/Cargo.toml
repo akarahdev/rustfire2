@@ -11,3 +11,4 @@ valence_nbt = { version = "0.8.0", features = ["serde", "snbt"] }
 base64 = "0.22.1"
 flate2 = "1.0.35"
 toml = "0.8.19"
+const_format = "0.2.33"

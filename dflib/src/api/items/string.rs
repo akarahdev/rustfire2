@@ -4,7 +4,7 @@ use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct String(pub(crate) Item);
 impl TypedVarItem for String {}
 
@@ -23,8 +23,8 @@ impl VarItem for String {
 }
 
 impl String {
-    pub fn new(raw: &str) -> String {
-        String(Item::String { data: NamedData { name: raw.to_string() }})
+    pub fn new(raw: &'static str) -> String {
+        String(Item::String { data: NamedData { name: raw }})
     }
 }
 

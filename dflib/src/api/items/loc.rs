@@ -4,7 +4,7 @@ use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, LocData, LocValue};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Location(pub(crate) Item);
 impl TypedVarItem for Location {}
 
