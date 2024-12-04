@@ -57,11 +57,11 @@ macro_rules! export_registry {
 const VAR_STRING: [&'static str; 9999] = include!(concat!(env!("OUT_DIR"), "/variables.rs"));
 
 pub(crate) fn allocate_variable() -> Item {
-    let fetched = VAR_INDEX.fetch_add(3, Ordering::AcqRel);
+    let fetched = VAR_INDEX.fetch_add(1, Ordering::AcqRel);
     Item::Variable {
         data: VarData {
             name: &VAR_STRING[fetched],
-            scope: "line",
+            scope: "unsaved",
         }
     }
 }

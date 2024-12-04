@@ -1,3 +1,4 @@
+use rustfire::api::headers::functions::Functions;
 use rustfire::api::items::list::List;
 use rustfire::api::items::number::Number;
 use rustfire::api::items::VarItem;
@@ -9,7 +10,7 @@ pub struct SafeList<T: VarItem> {
     inner: List<T>,
 }
 
-impl<T: VarItem> VarItem for SafeList<T> {
+impl<T: VarItem + 'static> VarItem for SafeList<T> {
     fn as_item(&self) -> Item {
         self.inner.as_item()
     }
@@ -31,11 +32,14 @@ impl<T: VarItem> SafeList<T> {
     }
     
     pub fn get(&self, index: Number) -> Optional<T> {
-        let mut out = Optional::empty();
-        index.if_less_than_or_equal(self.inner.len(), || {
-            out = Optional::new(self.inner.get(index)); 
-        });
-        out
+        let s = self.clone();
+        Functions::declare_with_return(Functions::allocate_name(), move || {
+            let mut out = Optional::empty();
+            index.if_less_than_or_equal(s.inner.len(), || {
+                Optional::new(s.inner.get(index));
+            });
+            out
+        })
     }
     
     pub fn append(&self, value: T) -> &Self {

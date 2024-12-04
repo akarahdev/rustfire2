@@ -5,6 +5,7 @@ use rustfire::api::items::VarItem;
 use rustfire::api::items::any::Any;
 use rustfire::{comp, num, str};
 use rustfire::api::cf::control::Control;
+use rustfire::api::headers::functions::Functions;
 use rustfire::api::selections::targets::EventDefault;
 use rustfire::codetemplate::args::Item as DFItem;
 
@@ -30,26 +31,33 @@ impl<T: VarItem> VarItem for Optional<T> {
 
 impl<T: VarItem> Optional<T> {
     pub fn new(inner: T) -> Optional<T> {
-        let dict: Dictionary<String, Any> = Dictionary::new();
-        dict.put(str!("value"), Any::from_value(inner));
-        dict.put(str!("is_present"), num!(1).into());
-        Optional { dict, phantom: PhantomData }
+        Functions::declare_with_return(Functions::allocate_name(), move || {
+            let dict: Dictionary<String, Any> = Dictionary::new();
+            dict.put(str!("value"), Any::from_value(inner));
+            dict.put(str!("is_present"), num!(1).into());
+            Optional { dict, phantom: PhantomData }
+        })
     }
 
     pub fn empty() -> Optional<T> {
-        let dict: Dictionary<String, Any> = Dictionary::new();
-        dict.put(str!("is_present"), num!(0).into());
-        Optional { dict, phantom: PhantomData }
+        Functions::declare_with_return(Functions::allocate_name(), move || {
+            let dict: Dictionary<String, Any> = Dictionary::new();
+            dict.put(str!("is_present"), num!(0).into());
+            Optional { dict, phantom: PhantomData }
+        })
     }
 
     pub fn unwrap(&self) -> T {
-        let mut out = T::default();
-        self.dict.get(str!("is_present")).if_equals(num!(1).into(), || {
-            out = self.dict.get(str!("value")).cast();
-        }).or_else(|| {
-            EventDefault::player().send_message(comp!("<red>ERROR: Used unwrap on empty Optional<T>"));
-            Control::end_thread();
-        });
-        out
+        let s = self.clone();
+        Functions::declare_with_return(Functions::allocate_name(), move || {
+            let mut out = T::default();
+            s.dict.get(str!("is_present")).if_equals(num!(1).into(), || {
+                out = s.dict.get(str!("value")).cast();
+            }).or_else(|| {
+                EventDefault::player().send_message(comp!("<red>ERROR: Used unwrap on empty Optional<T>"));
+                Control::end_thread();
+            });
+            out
+        })
     }
 }
