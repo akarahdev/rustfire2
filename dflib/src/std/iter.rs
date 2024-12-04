@@ -9,30 +9,51 @@ use crate::api::items::VarItem;
 use crate::codetemplate::args::Item;
 use crate::std::optional::Optional;
 use crate::{num, str};
+use crate::api::cf::control::Control;
+use crate::api::cf::repeat::Repeat;
 use crate::api::items::cell::Cell;
 
 pub trait Iterator {
     type Item: VarItem;
 
     fn next(&self) -> Optional<Self::Item>;
+
+    fn for_each<F: Fn(Self::Item)>(&self, f: F) {
+        Repeat::forever(|| {
+            let item = self.next();
+            item.if_present(|| {
+                f(item.unwrap());
+            }).or_else(|| {
+                Control::stop_repeat();
+            });
+        });
+    }
+
+    fn count<F: Fn(Self::Item)>(&self) -> Number {
+        let mut c = num!(0);
+        Repeat::forever(|| {
+            let item = self.next();
+            item.if_present(|| {
+                c = c + num!(1);
+            }).or_else(|| {
+                Control::stop_repeat();
+            });
+        });
+        c
+    }
+
+    fn map<O, F>(self, f: F) -> MapIter<Self, O, F>
+    where
+        O: VarItem,
+        F: Fn(Self::Item) -> O,
+        Self: Sized,
+    {
+        MapIter(self, f, PhantomData)
+    }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct ListIter<T: VarItem>(Dictionary<String, Any>, PhantomData<T>);
-
-impl<T: VarItem> VarItem for ListIter<T> {
-    fn as_item(&self) -> Item {
-        self.0.as_item()
-    }
-
-    fn from_item(item: Item) -> Self {
-        ListIter(Dictionary::from_item(item), PhantomData)
-    }
-
-    fn default() -> Self {
-        ListIter(Dictionary::default(), PhantomData)
-    }
-}
 
 impl<T: VarItem> Iterator for ListIter<T> {
     type Item = T;
@@ -46,7 +67,7 @@ impl<T: VarItem> Iterator for ListIter<T> {
                     let idx = s.0.get(str!("idx")).cast::<Number>();
                     s.0.put(str!("idx"), Any::from_value(idx + num!(1)));
                     cell.set(Optional::wrap(s.0.get(str!("list")).cast::<List<T>>().get(idx)));
-            });
+                });
             cell.into_inner()
         })
     }
@@ -58,5 +79,22 @@ impl<T: VarItem> List<T> {
         dict.put(str!("idx"), Any::from_value(num!(1)));
         dict.put(str!("list"), Any::from_value(self.clone()));
         ListIter(dict, PhantomData)
+    }
+}
+
+pub struct MapIter<I: Iterator, O: VarItem, F: Fn(I::Item) -> O>(I, F, PhantomData<O>);
+
+impl<I: Iterator, O: VarItem, F: Fn(I::Item) -> O> Iterator for MapIter<I, O, F> {
+    type Item = O;
+
+    fn next(&self) -> Optional<Self::Item> {
+        let o = Cell::empty();
+        let child = self.0.next();
+        child.if_present(|| {
+            o.set(Optional::wrap(self.1(child.unwrap())));
+        }).or_else(|| {
+            o.set(Optional::empty());
+        });
+        o.into_inner()
     }
 }

@@ -9,6 +9,7 @@ pub mod number;
 pub mod string;
 pub mod vec;
 pub mod cell;
+pub mod particle;
 
 use crate::api::cf::handles::ElseHandle;
 use crate::api::push_block;

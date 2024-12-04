@@ -5,6 +5,7 @@ pub mod inventory;
 pub mod items;
 pub mod movement;
 pub mod world;
+mod visuals;
 
 use crate::api::selections::Selection;
 

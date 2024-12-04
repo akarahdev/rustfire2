@@ -40,6 +40,14 @@ pub enum Item {
     Location { data: LocData },
     #[serde(rename = "vec")]
     Vector { data: VecData },
+    #[serde(rename = "pot")]
+    Potion { data: PotionData },
+    #[serde(rename = "g_val")]
+    GameValue { data: GameValueData },
+    #[serde(rename = "sound")]
+    Sound { data: SoundData },
+    #[serde(rename = "part")]
+    Particle { data: ParticleData },
 }
 
 impl Item {
@@ -118,4 +126,38 @@ pub struct VecData {
     pub x: f64,
     pub y: f64,
     pub z: f64,
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+pub struct PotionData {
+    pub pot: &'static str,
+    pub dur: i64,
+    pub amp: i64
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+pub struct SoundData {
+    pub sound: &'static str,
+    pub pitch: f64,
+    pub vol: f64
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+pub struct GameValueData {
+    #[serde(rename = "type")]
+    pub value: &'static str,
+    pub target: &'static str,
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+pub struct ParticleData {
+    pub particle: &'static str,
+    pub cluster: ParticleCluster
+}
+
+#[derive(Serialize, Debug, Clone, Copy)]
+pub struct ParticleCluster {
+    pub amount: i64,
+    pub horizontal: f64,
+    pub vertical: f64
 }

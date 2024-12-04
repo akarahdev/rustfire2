@@ -1,4 +1,5 @@
 use std::marker::PhantomData;
+use std::ops::Deref;
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::VarItem;
 use crate::codetemplate::args::{ChestArgs, Item as DFItem};

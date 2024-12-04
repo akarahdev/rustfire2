@@ -57,7 +57,7 @@ pub(crate) fn allocate_variable() -> Item {
     Item::Variable {
         data: VarData {
             name: &VAR_STRING[fetched],
-            scope: "unsaved",
+            scope: "local",
         },
     }
 }
