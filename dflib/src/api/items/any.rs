@@ -15,13 +15,7 @@ impl VarItem for Any {
     }
 
     fn default() -> Self {
-        Number::default().into()
-    }
-}
-
-impl<T: TypedVarItem> From<T> for Any {
-    fn from(value: T) -> Self {
-        Any(value.as_item())
+        Any::from_item(Number::default().as_item())
     }
 }
 
@@ -30,6 +24,10 @@ impl Any {
         Any(Item::Number {
             data: NamedData { name: "0" },
         })
+    }
+
+    pub fn from_item(item: Item) -> Self {
+        Any(item)
     }
 
     pub fn from_value<V: VarItem>(v: V) -> Any {

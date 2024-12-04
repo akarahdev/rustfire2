@@ -1,30 +1,34 @@
-mod optional;
-mod safelist;
-
-use crate::safelist::SafeList;
 use rustfire::api::headers::player::PlayerEvent;
 use rustfire::api::selections::targets::EventDefault;
 use rustfire::{comp, num, registry};
+use rustfire::api::cf::control::Control;
+use rustfire::api::cf::repeat::Repeat;
+use rustfire::api::items::list::List;
+use rustfire::std::iter::Iterator;
 
 registry!({
     PlayerEvent::Join.declare(on_join);
-    PlayerEvent::Leave.declare(on_join);
-    PlayerEvent::LeftClick.declare(on_join);
-    PlayerEvent::RightClick.declare(on_join);
 });
 
 pub fn on_join() {
     EventDefault::player().send_message(comp!("Hello world!"));
-    EventDefault::player().open_inv();
-
-    let list = SafeList::new();
-    list.append(num!(10));
-    list.append(num!(20));
-    list.append(num!(30));
-
-    EventDefault::player().send_message(comp!("Value of list[6] is:") + list.get(num!(6)));
-
-    EventDefault::player().send_message(comp!("Value of list[2] is:") + list.get(num!(2)));
-
-    EventDefault::player().send_message(comp!("Value of list[19] is:") + list.get(num!(19)));
+    
+    let list = List::new();
+    list.append(num!(15));
+    list.append(num!(45));
+    list.append(num!(27));
+    
+    let iterator = list.iter();
+    
+    Repeat::forever(|| {
+        let next = iterator.next();
+        next.if_none(|| {
+            Control::stop_repeat();
+        });
+        let next = next.unwrap();
+        EventDefault::player().send_message(
+            comp!("Number: ") + next
+            + comp!(" | Iter: ") + iterator
+        );
+    });
 }

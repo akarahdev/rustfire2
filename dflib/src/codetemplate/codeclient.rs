@@ -38,7 +38,7 @@ pub fn send_to_code_client(mut templates: Vec<Template>) {
                     println!("cap: {}", COMPILER_CONFIG.plot.size.max_blocks());
                     if ((builder.len() + template.blocks.len())
                         >= COMPILER_CONFIG.plot.size.max_blocks())
-                        || index >= templates.len() - 1
+                        || index >= templates.len() - 2
                     {
                         let json_encoded =
                             serde_json::to_string(&Template { blocks: builder }).unwrap();

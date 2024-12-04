@@ -8,6 +8,7 @@ pub mod loc;
 pub mod number;
 pub mod string;
 pub mod vec;
+pub mod cell;
 
 use crate::api::cf::handles::ElseHandle;
 use crate::api::push_block;

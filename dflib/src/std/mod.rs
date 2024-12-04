@@ -1,2 +1,2 @@
-mod optional;
-mod iter;
+pub mod optional;
+pub mod iter;
