@@ -1,15 +1,17 @@
-use std::sync::Arc;
-use std::sync::mpsc::channel;
-use crate::api::{allocate_variable, push_block, start_new_template};
 use crate::api::items::VarItem;
+use crate::api::{allocate_variable, push_block, start_new_template};
 use crate::codetemplate::args::Item;
 use crate::codetemplate::template::TemplateBlock;
+use std::sync::mpsc::channel;
+use std::sync::Arc;
 
 pub struct Functions;
 
 impl Functions {
     pub fn allocate_name() -> &'static str {
-        let Item::Variable { data } = allocate_variable() else { unreachable!() ; };
+        let Item::Variable { data } = allocate_variable() else {
+            unreachable!();
+        };
         data.name
     }
 
@@ -21,7 +23,10 @@ impl Functions {
         });
     }
 
-    pub fn declare_with_return<O: VarItem + 'static, F: FnOnce() -> O + Send + 'static>(name: &'static str, f: F) -> O {
+    pub fn declare_with_return<O: VarItem + 'static, F: FnOnce() -> O + Send + 'static>(
+        name: &'static str,
+        f: F,
+    ) -> O {
         Functions::call(name);
 
         let (sender, recv) = channel();

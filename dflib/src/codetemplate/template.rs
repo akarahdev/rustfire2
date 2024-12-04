@@ -1,9 +1,9 @@
-use serde::{Serialize};
 use crate::codetemplate::args::ChestArgs;
+use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
 pub struct Template {
-    pub blocks: Vec<TemplateBlock>
+    pub blocks: Vec<TemplateBlock>,
 }
 
 #[derive(Serialize, Debug, Clone)]
@@ -11,7 +11,7 @@ pub enum BlockId {
     #[serde(rename = "block")]
     Block,
     #[serde(rename = "bracket")]
-    Bracket
+    Bracket,
 }
 
 impl Default for BlockId {
@@ -25,7 +25,7 @@ pub enum BracketDirection {
     #[serde(rename = "open")]
     Start,
     #[serde(rename = "close")]
-    End
+    End,
 }
 
 #[derive(Serialize, Debug, Clone)]
@@ -33,7 +33,7 @@ pub enum BracketType {
     #[serde(rename = "norm")]
     Normal,
     #[serde(rename = "repeat")]
-    Sticky
+    Sticky,
 }
 
 #[derive(Serialize, Debug, Clone, Copy)]
@@ -106,6 +106,4 @@ pub struct TemplateBlock {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(crate) args: Option<ChestArgs>,
-
 }
-

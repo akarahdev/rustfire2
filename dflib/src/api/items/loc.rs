@@ -1,6 +1,6 @@
-use crate::api::{allocate_variable, push_block};
 use crate::api::items::number::Number;
 use crate::api::items::{TypedVarItem, VarItem};
+use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item, LocData, LocValue};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
 
@@ -28,9 +28,13 @@ impl Location {
             data: LocData {
                 is_block: false,
                 loc: LocValue {
-                    x, y, z, pitch: 0.0, yaw: 0.0
+                    x,
+                    y,
+                    z,
+                    pitch: 0.0,
+                    yaw: 0.0,
                 },
-            }
+            },
         })
     }
 
@@ -39,9 +43,13 @@ impl Location {
             data: LocData {
                 is_block: false,
                 loc: LocValue {
-                    x, y, z, pitch, yaw
+                    x,
+                    y,
+                    z,
+                    pitch,
+                    yaw,
                 },
-            }
+            },
         })
     }
 
@@ -54,8 +62,15 @@ impl Location {
                 .with_slot(1, x.as_item().clone())
                 .with_slot(2, y.as_item().clone())
                 .with_slot(3, z.as_item().clone())
-                .with_slot(26, Item::block_tag("Plot coordinate", "Coordinate Type",
-                                               "SetAllCoords", BlockType::SetVariable))
+                .with_slot(
+                    26,
+                    Item::block_tag(
+                        "Plot coordinate",
+                        "Coordinate Type",
+                        "SetAllCoords",
+                        BlockType::SetVariable,
+                    ),
+                ),
         ));
         Location(result)
     }
@@ -71,8 +86,15 @@ impl Location {
                 .with_slot(3, z.as_item().clone())
                 .with_slot(4, pitch.as_item().clone())
                 .with_slot(5, yaw.as_item().clone())
-                .with_slot(26, Item::block_tag("Plot coordinate", "Coordinate Type",
-                                               "SetAllCoords", BlockType::SetVariable))
+                .with_slot(
+                    26,
+                    Item::block_tag(
+                        "Plot coordinate",
+                        "Coordinate Type",
+                        "SetAllCoords",
+                        BlockType::SetVariable,
+                    ),
+                ),
         ));
         Location(result)
     }

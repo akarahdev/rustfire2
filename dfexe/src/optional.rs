@@ -1,13 +1,13 @@
-use std::marker::PhantomData;
+use rustfire::api::cf::control::Control;
+use rustfire::api::headers::functions::Functions;
+use rustfire::api::items::any::Any;
 use rustfire::api::items::dict::Dictionary;
 use rustfire::api::items::string::String;
 use rustfire::api::items::VarItem;
-use rustfire::api::items::any::Any;
-use rustfire::{comp, num, str};
-use rustfire::api::cf::control::Control;
-use rustfire::api::headers::functions::Functions;
 use rustfire::api::selections::targets::EventDefault;
 use rustfire::codetemplate::args::Item as DFItem;
+use rustfire::{comp, num, str};
+use std::marker::PhantomData;
 
 #[derive(Clone, Copy)]
 pub struct Optional<T: VarItem> {
@@ -21,7 +21,10 @@ impl<T: VarItem> VarItem for Optional<T> {
     }
 
     fn from_item(item: DFItem) -> Self {
-        Optional { dict: Dictionary::from_item(item), phantom: PhantomData }
+        Optional {
+            dict: Dictionary::from_item(item),
+            phantom: PhantomData,
+        }
     }
 
     fn default() -> Self {
@@ -35,7 +38,10 @@ impl<T: VarItem> Optional<T> {
             let dict: Dictionary<String, Any> = Dictionary::new();
             dict.put(str!("value"), Any::from_value(inner));
             dict.put(str!("is_present"), num!(1).into());
-            Optional { dict, phantom: PhantomData }
+            Optional {
+                dict,
+                phantom: PhantomData,
+            }
         })
     }
 
@@ -43,7 +49,10 @@ impl<T: VarItem> Optional<T> {
         Functions::declare_with_return(Functions::allocate_name(), move || {
             let dict: Dictionary<String, Any> = Dictionary::new();
             dict.put(str!("is_present"), num!(0).into());
-            Optional { dict, phantom: PhantomData }
+            Optional {
+                dict,
+                phantom: PhantomData,
+            }
         })
     }
 
@@ -51,12 +60,16 @@ impl<T: VarItem> Optional<T> {
         let s = self.clone();
         Functions::declare_with_return(Functions::allocate_name(), move || {
             let mut out = T::default();
-            s.dict.get(str!("is_present")).if_equals(num!(1).into(), || {
-                out = s.dict.get(str!("value")).cast();
-            }).or_else(|| {
-                EventDefault::player().send_message(comp!("<red>ERROR: Used unwrap on empty Optional<T>"));
-                Control::end_thread();
-            });
+            s.dict
+                .get(str!("is_present"))
+                .if_equals(num!(1).into(), || {
+                    out = s.dict.get(str!("value")).cast();
+                })
+                .or_else(|| {
+                    EventDefault::player()
+                        .send_message(comp!("<red>ERROR: Used unwrap on empty Optional<T>"));
+                    Control::end_thread();
+                });
             out
         })
     }

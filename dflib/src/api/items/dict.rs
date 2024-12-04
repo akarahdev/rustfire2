@@ -1,9 +1,9 @@
-use std::marker::PhantomData;
-use crate::api::{allocate_variable, push_block};
 use crate::api::items::list::List;
 use crate::api::items::{TypedVarItem, VarItem};
+use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::TemplateBlock;
+use std::marker::PhantomData;
 #[derive(Copy)]
 pub struct Dictionary<K: VarItem, V: VarItem>(pub(crate) Item, pub(crate) PhantomData<(K, V)>);
 impl<K: VarItem, V: VarItem> TypedVarItem for Dictionary<K, V> {}
@@ -33,8 +33,7 @@ impl<K: VarItem, V: VarItem> Dictionary<K, V> {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "CreateDict".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone())
+            ChestArgs::new().with_slot(0, result.clone()),
         ));
         Dictionary(result, PhantomData)
     }
@@ -46,7 +45,7 @@ impl<K: VarItem, V: VarItem> Dictionary<K, V> {
             ChestArgs::new()
                 .with_slot(0, result.clone())
                 .with_slot(1, keys.as_item())
-                .with_slot(2, values.as_item())
+                .with_slot(2, values.as_item()),
         ));
         Dictionary(result, PhantomData)
     }
@@ -57,7 +56,7 @@ impl<K: VarItem, V: VarItem> Dictionary<K, V> {
             ChestArgs::new()
                 .with_slot(0, self.as_item().clone())
                 .with_slot(1, key.as_item().clone())
-                .with_slot(2, value.as_item().clone())
+                .with_slot(2, value.as_item().clone()),
         ))
     }
 
@@ -68,7 +67,7 @@ impl<K: VarItem, V: VarItem> Dictionary<K, V> {
             ChestArgs::new()
                 .with_slot(0, result.clone())
                 .with_slot(1, self.as_item().clone())
-                .with_slot(2, key.as_item().clone())
+                .with_slot(2, key.as_item().clone()),
         ));
         V::from_item(result)
     }

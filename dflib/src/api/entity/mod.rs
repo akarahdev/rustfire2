@@ -8,7 +8,5 @@ pub struct Entity;
 impl Selection for Entity {
     type Base = Entity;
 
-    fn selection_mechanism(&self) {
-
-    }
+    fn selection_mechanism(&self) {}
 }

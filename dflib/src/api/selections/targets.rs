@@ -1,4 +1,3 @@
-use std::ops::Deref;
 use crate::api::entity::Entity;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
@@ -7,6 +6,7 @@ use crate::api::push_block;
 use crate::api::selections::Selection;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
+use std::ops::Deref;
 
 macro_rules! impl_deref_for_sel {
     ($($name:ident),*) => {
@@ -23,7 +23,14 @@ macro_rules! impl_deref_for_sel {
     };
 }
 
-impl_deref_for_sel!(EventDefault, EventKiller, EventDamager, EventVictim, EventShooter, EventProjectile);
+impl_deref_for_sel!(
+    EventDefault,
+    EventKiller,
+    EventDamager,
+    EventVictim,
+    EventShooter,
+    EventProjectile
+);
 
 #[derive(Clone, Debug)]
 pub struct EventDefault<C: Selection>(pub(crate) C);
@@ -34,9 +41,15 @@ impl<C: Selection> Selection for EventDefault<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Default", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Default",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -63,9 +76,15 @@ impl<C: Selection> Selection for EventKiller<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Killer", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Killer",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -79,9 +98,15 @@ impl<C: Selection> Selection for EventDamager<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Damager", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Damager",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -95,9 +120,15 @@ impl<C: Selection> Selection for EventVictim<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Victim", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Victim",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -112,9 +143,15 @@ impl<C: Selection> Selection for EventShooter<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Shooter", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Shooter",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -129,9 +166,15 @@ impl<C: Selection> Selection for EventProjectile<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "EventTarget".to_string(),
-            ChestArgs::new()
-                .with_slot(26, Item::block_tag("Projectile", "Event Target",
-                                               "EventTarget", BlockType::SelectObject)),
+            ChestArgs::new().with_slot(
+                26,
+                Item::block_tag(
+                    "Projectile",
+                    "Event Target",
+                    "EventTarget",
+                    BlockType::SelectObject,
+                ),
+            ),
         ));
         self.0.selection_mechanism()
     }
@@ -156,8 +199,7 @@ impl<C: Selection> Selection for FilterRandomly<C> {
     fn selection_mechanism(&self) {
         push_block(TemplateBlock::select_object(
             "FilterRandom".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.1.as_item())
+            ChestArgs::new().with_slot(0, self.1.as_item()),
         ))
     }
 }

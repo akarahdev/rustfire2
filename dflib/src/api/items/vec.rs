@@ -1,6 +1,6 @@
-use crate::api::{allocate_variable, push_block};
 use crate::api::items::number::Number;
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
+use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item, VecData};
 use crate::codetemplate::template::TemplateBlock;
 
@@ -25,11 +25,7 @@ impl VarItem for Vector {
 impl Vector {
     pub fn new_const(x: f64, y: f64, z: f64) -> Vector {
         Vector(Item::Vector {
-            data: VecData {
-                x,
-                y,
-                z,
-            }
+            data: VecData { x, y, z },
         })
     }
 

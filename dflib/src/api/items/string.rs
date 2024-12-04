@@ -1,8 +1,8 @@
-use std::ops::Add;
-use crate::api::{allocate_variable, push_block};
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
+use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
+use std::ops::Add;
 
 #[derive(Debug, Clone, Copy)]
 pub struct String(pub(crate) Item);
@@ -24,7 +24,9 @@ impl VarItem for String {
 
 impl String {
     pub fn new(raw: &'static str) -> String {
-        String(Item::String { data: NamedData { name: raw }})
+        String(Item::String {
+            data: NamedData { name: raw },
+        })
     }
 }
 
@@ -39,8 +41,15 @@ impl<T: VarItem> Add<T> for String {
                 .with_slot(0, result.clone())
                 .with_slot(1, self.as_item())
                 .with_slot(2, rhs.as_item())
-                .with_slot(26, Item::block_tag("No Spaces", "Text Value Merging",
-                                               "StyledText", BlockType::SetVariable))
+                .with_slot(
+                    26,
+                    Item::block_tag(
+                        "No Spaces",
+                        "Text Value Merging",
+                        "StyledText",
+                        BlockType::SetVariable,
+                    ),
+                ),
         ));
         String(result)
     }

@@ -16,13 +16,11 @@ pub enum EquipmentSlot {
     Boots,
 }
 
-
 player_action! {
     fn give_item => "GiveItems";
 
     arg item: Item;
 }
-
 
 player_action! {
     fn set_item_in_slot => "SetItemInSlot";
@@ -58,7 +56,6 @@ player_action! {
 
     arg item: Item;
 }
-
 
 player_action! {
     fn set_cursor_item => "SetCursorItem";
@@ -104,9 +101,9 @@ impl Player {
         push_block(TemplateBlock::player_action(
             "SetEquipment".to_string(),
             "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item())
-                .with_slot(26, DFItem::block_tag(
+            ChestArgs::new().with_slot(0, item.as_item()).with_slot(
+                26,
+                DFItem::block_tag(
                     match slot {
                         EquipmentSlot::MainHand => "Main hand",
                         EquipmentSlot::OffHand => "Off hand",
@@ -118,7 +115,8 @@ impl Player {
                     "EquipmentSlot",
                     "SetEquipment",
                     BlockType::PlayerAction,
-                )),
+                ),
+            ),
         ))
     }
 }

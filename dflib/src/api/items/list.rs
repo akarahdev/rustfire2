@@ -1,9 +1,9 @@
-use std::marker::PhantomData;
+use crate::api::items::number::Number;
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::api::items::number::Number;
 use crate::codetemplate::args::{ChestArgs, Item};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
+use std::marker::PhantomData;
 
 #[derive(Debug, Clone, Copy)]
 pub struct List<T: VarItem>(Item, PhantomData<T>);
@@ -28,8 +28,7 @@ impl<T: VarItem> List<T> {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
             "CreateList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, result.clone()),
+            ChestArgs::new().with_slot(0, result.clone()),
         ));
         List(result, PhantomData)
     }
@@ -44,10 +43,7 @@ impl<T: VarItem> List<T> {
             }
             args = args.with_slot((item.0 + 1) as u8, item.1.as_item());
         }
-        push_block(TemplateBlock::set_variable(
-            "CreateList".to_string(),
-            args,
-        ));
+        push_block(TemplateBlock::set_variable("CreateList".to_string(), args));
         List(result, PhantomData)
     }
 
@@ -74,8 +70,7 @@ impl<T: VarItem> List<T> {
     pub fn pop(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "PopListValue".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item()),
+            ChestArgs::new().with_slot(0, self.as_item()),
         ));
         self
     }
@@ -160,8 +155,7 @@ impl<T: VarItem> List<T> {
     pub fn dedup(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "DedupList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item()),
+            ChestArgs::new().with_slot(0, self.as_item()),
         ));
         self
     }
@@ -180,10 +174,15 @@ impl<T: VarItem> List<T> {
     pub fn sort(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "SortList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item())
-                .with_slot(26, Item::block_tag("Ascending", "Sort Order",
-                                               "SortList", BlockType::SetVariable)),
+            ChestArgs::new().with_slot(0, self.as_item()).with_slot(
+                26,
+                Item::block_tag(
+                    "Ascending",
+                    "Sort Order",
+                    "SortList",
+                    BlockType::SetVariable,
+                ),
+            ),
         ));
         self
     }
@@ -191,8 +190,7 @@ impl<T: VarItem> List<T> {
     pub fn reverse(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "ReverseList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item())
+            ChestArgs::new().with_slot(0, self.as_item()),
         ));
         self
     }
@@ -200,8 +198,7 @@ impl<T: VarItem> List<T> {
     pub fn randomize(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "RandomizeList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item())
+            ChestArgs::new().with_slot(0, self.as_item()),
         ));
         self
     }
@@ -209,8 +206,7 @@ impl<T: VarItem> List<T> {
     pub fn flatten(&self) -> &Self {
         push_block(TemplateBlock::set_variable(
             "FlattenList".to_string(),
-            ChestArgs::new()
-                .with_slot(0, self.as_item())
+            ChestArgs::new().with_slot(0, self.as_item()),
         ));
         self
     }

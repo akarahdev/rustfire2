@@ -1,13 +1,13 @@
+pub mod any;
 pub mod component;
+pub mod dict;
+pub mod intos;
+pub mod item;
+pub mod list;
 pub mod loc;
 pub mod number;
 pub mod string;
-pub mod intos;
-pub mod list;
-pub mod dict;
 pub mod vec;
-pub mod any;
-pub mod item;
 
 use crate::api::cf::handles::ElseHandle;
 use crate::api::push_block;
@@ -18,17 +18,23 @@ pub trait VarItem: Clone + Copy + Send + Sync + 'static {
     fn as_item(&self) -> Item;
     fn from_item(item: Item) -> Self;
     fn default() -> Self;
-    
+
     fn if_equals<F: FnOnce()>(&self, other: Self, run: F) -> ElseHandle {
         push_block(TemplateBlock::if_variable(
             "=".to_string(),
             ChestArgs::new()
                 .with_slot(0, self.clone().as_item())
-                .with_slot(1, other.clone().as_item())
+                .with_slot(1, other.clone().as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         run();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
         ElseHandle
     }
 }
@@ -42,12 +48,16 @@ macro_rules! num {
 
 #[macro_export]
 macro_rules! str {
-    ($t:expr) => { $crate::api::items::string::String::new($t) }
+    ($t:expr) => {
+        $crate::api::items::string::String::new($t)
+    };
 }
 
 #[macro_export]
 macro_rules! comp {
-    ($t:expr) => { $crate::api::items::component::Component::new($t) }
+    ($t:expr) => {
+        $crate::api::items::component::Component::new($t)
+    };
 }
 
 #[macro_export]
@@ -68,12 +78,16 @@ macro_rules! dict {
 
 #[macro_export]
 macro_rules! start {
-    ($name:ident) => { $crate::api::headers::processes::Processes::call(stringify!($name)); }
+    ($name:ident) => {
+        $crate::api::headers::processes::Processes::call(stringify!($name));
+    };
 }
 
 #[macro_export]
 macro_rules! call {
-    ($name:ident) => { $crate::api::headers::functions::Functions::call(stringify!($name)); }
+    ($name:ident) => {
+        $crate::api::headers::functions::Functions::call(stringify!($name));
+    };
 }
 
 pub(crate) macro set_variable(

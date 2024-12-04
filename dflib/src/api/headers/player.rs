@@ -9,7 +9,7 @@ pub enum PlayerEvent {
     LeftClick,
     RightClickEntity,
     LeftClickEntity,
-    Respawn
+    Respawn,
 }
 
 impl PlayerEvent {
@@ -22,7 +22,8 @@ impl PlayerEvent {
             PlayerEvent::RightClickEntity => "RightClickEntity",
             PlayerEvent::LeftClickEntity => "LeftClickEntity",
             PlayerEvent::Respawn => "Respawn",
-        }.to_string()
+        }
+        .to_string()
     }
 
     pub fn declare<F: FnOnce() + Send + 'static>(self, code: F) {

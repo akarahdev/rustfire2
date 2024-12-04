@@ -1,20 +1,20 @@
-pub mod items;
 pub mod cf;
-pub mod selections;
-pub mod player;
+pub mod config;
 pub mod entity;
 pub mod headers;
-pub mod config;
+pub mod items;
+pub mod player;
+pub mod selections;
 
+use crate::api::config::{Config, PlotRank};
+use crate::codetemplate::args::{Item, VarData};
+use crate::codetemplate::codeclient::send_to_code_client;
+use crate::codetemplate::template::{Template, TemplateBlock};
 use std::cell::UnsafeCell;
 use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{LazyLock, Mutex};
 use std::time::Instant;
-use crate::api::config::{Config, PlotRank};
-use crate::codetemplate::args::{Item, VarData};
-use crate::codetemplate::codeclient::send_to_code_client;
-use crate::codetemplate::template::{Template, TemplateBlock};
 
 thread_local! {
     // Safety: This is safe due to how this is accessed.
@@ -58,7 +58,7 @@ pub(crate) fn allocate_variable() -> Item {
         data: VarData {
             name: &VAR_STRING[fetched],
             scope: "unsaved",
-        }
+        },
     }
 }
 
@@ -67,7 +67,9 @@ pub(crate) fn start_new_template<F: FnOnce() + Send + 'static>(f: F) {
     THREAD_COUNTER.fetch_add(1, Ordering::AcqRel);
     std::thread::spawn(move || {
         CURRENT_TEMPLATE.with(|tmp| {
-            unsafe { (*tmp.get()).blocks = vec![]; };
+            unsafe {
+                (*tmp.get()).blocks = vec![];
+            };
         });
         f();
         end_template();
@@ -77,14 +79,17 @@ pub(crate) fn start_new_template<F: FnOnce() + Send + 'static>(f: F) {
 pub(crate) fn end_template() {
     CURRENT_TEMPLATE.with(|tmp| {
         let blocks = unsafe { (*tmp.get()).blocks.clone() };
-        TEMPLATE_REPOSITORY.lock().unwrap().push(Template { blocks });
+        TEMPLATE_REPOSITORY
+            .lock()
+            .unwrap()
+            .push(Template { blocks });
     });
     THREAD_COUNTER.fetch_sub(1, Ordering::AcqRel);
 }
 
 pub(crate) fn push_block(template_block: TemplateBlock) {
-    CURRENT_TEMPLATE.with(|tmp| {
-        unsafe { (*tmp.get()).blocks.push(template_block); }
+    CURRENT_TEMPLATE.with(|tmp| unsafe {
+        (*tmp.get()).blocks.push(template_block);
     });
 }
 
@@ -117,8 +122,12 @@ pub fn done() {
     let max_length = COMPILER_CONFIG.plot.size.max_blocks();
     for template in &templates {
         if template.blocks.len() > max_length as usize {
-            panic!("Error on block {:?}: {} blocks exceeds max length of {}",
-                template.blocks.first().unwrap(), template.blocks.len(), max_length);
+            panic!(
+                "Error on block {:?}: {} blocks exceeds max length of {}",
+                template.blocks.first().unwrap(),
+                template.blocks.len(),
+                max_length
+            );
         }
     }
 

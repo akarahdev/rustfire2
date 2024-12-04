@@ -1,8 +1,8 @@
-use std::ops::{Add, Div, Mul, Sub};
-use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
+use crate::api::{allocate_variable, push_block};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
+use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Number(pub(crate) Item);
@@ -24,7 +24,9 @@ impl VarItem for Number {
 
 impl Number {
     pub fn new(raw: &'static str) -> Number {
-        Number(Item::Number { data: NamedData { name: raw } })
+        Number(Item::Number {
+            data: NamedData { name: raw },
+        })
     }
 
     pub fn random_int(min: Number, max: Number) -> Number {
@@ -35,8 +37,15 @@ impl Number {
                 .with_slot(0, result.clone())
                 .with_slot(1, min.as_item())
                 .with_slot(2, max.as_item())
-                .with_slot(26, Item::block_tag("Whole number", "Rounding Mode",
-                        "RandomNumber", BlockType::SetVariable))
+                .with_slot(
+                    26,
+                    Item::block_tag(
+                        "Whole number",
+                        "Rounding Mode",
+                        "RandomNumber",
+                        BlockType::SetVariable,
+                    ),
+                ),
         ));
         Number(result)
     }
@@ -49,8 +58,15 @@ impl Number {
                 .with_slot(0, result.clone())
                 .with_slot(1, min.as_item())
                 .with_slot(2, max.as_item())
-                .with_slot(26, Item::block_tag("Decimal number", "Rounding Mode",
-                                               "RandomNumber", BlockType::SetVariable))
+                .with_slot(
+                    26,
+                    Item::block_tag(
+                        "Decimal number",
+                        "Rounding Mode",
+                        "RandomNumber",
+                        BlockType::SetVariable,
+                    ),
+                ),
         ));
         Number(result)
     }
@@ -126,11 +142,17 @@ impl Number {
             ">".to_string(),
             ChestArgs::new()
                 .with_slot(0, self.clone().as_item())
-                .with_slot(1, other.clone().as_item())
+                .with_slot(1, other.clone().as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         run();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
     }
 
     pub fn if_less_than<F: FnOnce()>(&self, other: Number, run: F) {
@@ -138,11 +160,17 @@ impl Number {
             "<".to_string(),
             ChestArgs::new()
                 .with_slot(0, self.clone().as_item())
-                .with_slot(1, other.clone().as_item())
+                .with_slot(1, other.clone().as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         run();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
     }
 
     pub fn if_greater_than_or_equal<F: FnOnce()>(&self, other: Number, run: F) {
@@ -150,11 +178,17 @@ impl Number {
             ">=".to_string(),
             ChestArgs::new()
                 .with_slot(0, self.clone().as_item())
-                .with_slot(1, other.clone().as_item())
+                .with_slot(1, other.clone().as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         run();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
     }
 
     pub fn if_less_than_or_equal<F: FnOnce()>(&self, other: Number, run: F) {
@@ -162,10 +196,16 @@ impl Number {
             "<=".to_string(),
             ChestArgs::new()
                 .with_slot(0, self.clone().as_item())
-                .with_slot(1, other.clone().as_item())
+                .with_slot(1, other.clone().as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         run();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
     }
 }

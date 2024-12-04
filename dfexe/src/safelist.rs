@@ -1,9 +1,9 @@
+use crate::optional::Optional;
 use rustfire::api::headers::functions::Functions;
 use rustfire::api::items::list::List;
 use rustfire::api::items::number::Number;
 use rustfire::api::items::VarItem;
 use rustfire::codetemplate::args::Item;
-use crate::optional::Optional;
 
 #[derive(Clone, Copy)]
 pub struct SafeList<T: VarItem> {
@@ -16,7 +16,9 @@ impl<T: VarItem + 'static> VarItem for SafeList<T> {
     }
 
     fn from_item(item: Item) -> Self {
-        SafeList { inner: List::from_item(item) }
+        SafeList {
+            inner: List::from_item(item),
+        }
     }
 
     fn default() -> Self {
@@ -26,11 +28,9 @@ impl<T: VarItem + 'static> VarItem for SafeList<T> {
 
 impl<T: VarItem> SafeList<T> {
     pub fn new() -> Self {
-        SafeList {
-            inner: List::new()
-        }
+        SafeList { inner: List::new() }
     }
-    
+
     pub fn get(&self, index: Number) -> Optional<T> {
         let s = self.clone();
         Functions::declare_with_return(Functions::allocate_name(), move || {
@@ -41,7 +41,7 @@ impl<T: VarItem> SafeList<T> {
             out
         })
     }
-    
+
     pub fn append(&self, value: T) -> &Self {
         self.inner.append(value);
         self

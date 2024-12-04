@@ -10,11 +10,16 @@ impl Player {
         push_block(TemplateBlock::if_player(
             "IsHolding".to_string(),
             "Selection".to_string(),
-            ChestArgs::new()
-                .with_slot(0, item.as_item())
+            ChestArgs::new().with_slot(0, item.as_item()),
         ));
-        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::Start,
+            BracketType::Normal,
+        ));
         if_true();
-        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        push_block(TemplateBlock::bracket(
+            BracketDirection::End,
+            BracketType::Normal,
+        ));
     }
 }
