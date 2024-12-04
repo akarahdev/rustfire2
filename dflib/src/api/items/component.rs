@@ -3,6 +3,7 @@ use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
 use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::comp;
 
 #[derive(Debug, Clone)]
 pub struct Component(pub(crate) Item);
@@ -15,6 +16,10 @@ impl VarItem for Component {
 
     fn from_item(item: Item) -> Self {
         Component(item)
+    }
+
+    fn default() -> Self {
+        Component::new("")
     }
 }
 

@@ -16,6 +16,10 @@ impl VarItem for Location {
     fn from_item(item: Item) -> Self {
         Location(item)
     }
+
+    fn default() -> Self {
+        Location::new_const(0.0, 0.0, 0.0)
+    }
 }
 
 impl Location {

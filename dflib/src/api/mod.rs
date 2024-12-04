@@ -4,7 +4,8 @@ pub mod selections;
 pub mod player;
 pub mod entity;
 pub mod headers;
-mod config;
+pub mod config;
+pub mod abstraction;
 
 use std::cell::UnsafeCell;
 use std::cmp::max;

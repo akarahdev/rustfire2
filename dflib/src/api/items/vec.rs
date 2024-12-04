@@ -16,6 +16,10 @@ impl VarItem for Vector {
     fn from_item(item: Item) -> Self {
         Vector(item)
     }
+
+    fn default() -> Self {
+        Self::new_const(0.0, 0.0, 0.0)
+    }
 }
 
 impl Vector {

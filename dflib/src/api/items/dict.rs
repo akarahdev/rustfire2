@@ -22,6 +22,10 @@ impl<K: VarItem, V: VarItem> VarItem for Dictionary<K, V> {
     fn from_item(item: Item) -> Self {
         Dictionary(item, PhantomData)
     }
+
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl<K: VarItem, V: VarItem> Dictionary<K, V> {

@@ -18,6 +18,10 @@ impl VarItem for Item {
     fn from_item(item: DFItem) -> Self {
         Item(item)
     }
+
+    fn default() -> Self {
+        Item::new("minecraft:dirt")
+    }
 }
 
 impl Item {

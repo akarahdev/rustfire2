@@ -1,8 +1,10 @@
+mod safelist;
+mod optional;
 
 use rustfire::{comp, num, registry};
 use rustfire::api::headers::player::PlayerEvent;
-use rustfire::api::items::item::Item;
 use rustfire::api::selections::targets::EventDefault;
+use crate::safelist::SafeList;
 
 registry!({
     PlayerEvent::Join.declare(on_join);
@@ -11,12 +13,15 @@ registry!({
 pub fn on_join() {
     EventDefault::player().send_message(comp!("Hello world!"));
     EventDefault::player().open_inv();
-
-    for _ in 1..1000 {
-        EventDefault::player().set_menu_item(
-            Item::new("minecraft:mace")
-                .with_count(num!(17)),
-            num!(14)
-        );
-    }
+    
+    let list = SafeList::new();
+    list.append(num!(10));
+    list.append(num!(20));
+    list.append(num!(30));
+    
+    
+    EventDefault::player().send_message(
+        comp!("Value of list[6] is:") 
+            + list.get(num!(6)).unwrap()
+    );
 }

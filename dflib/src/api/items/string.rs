@@ -16,6 +16,10 @@ impl VarItem for String {
     fn from_item(item: Item) -> Self {
         String(item)
     }
+
+    fn default() -> Self {
+        String::new("")
+    }
 }
 
 impl String {

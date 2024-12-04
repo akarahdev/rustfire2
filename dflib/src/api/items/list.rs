@@ -17,6 +17,10 @@ impl<T: VarItem> VarItem for List<T> {
     fn from_item(item: Item) -> Self {
         List(item, PhantomData)
     }
+
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl<T: VarItem> List<T> {
@@ -90,7 +94,7 @@ impl<T: VarItem> List<T> {
     pub fn get(&self, index: Number) -> T {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
-            "GetValue".to_string(),
+            "GetListValue".to_string(),
             ChestArgs::new()
                 .with_slot(0, result.clone())
                 .with_slot(1, self.as_item())
@@ -114,7 +118,7 @@ impl<T: VarItem> List<T> {
     pub fn len(&self) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
-            "PopListValue".to_string(),
+            "ListLength".to_string(),
             ChestArgs::new()
                 .with_slot(0, result.clone())
                 .with_slot(1, self.as_item()),

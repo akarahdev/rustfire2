@@ -9,11 +9,28 @@ pub mod vec;
 pub mod any;
 pub mod item;
 
-use crate::codetemplate::args::Item;
+use crate::api::cf::handles::ElseHandle;
+use crate::api::push_block;
+use crate::codetemplate::args::{ChestArgs, Item};
+use crate::codetemplate::template::{BracketDirection, BracketType, TemplateBlock};
 
 pub trait VarItem: Clone {
     fn as_item(&self) -> Item;
     fn from_item(item: Item) -> Self;
+    fn default() -> Self;
+    
+    fn if_equals<F: FnOnce()>(&self, other: Self, run: F) -> ElseHandle {
+        push_block(TemplateBlock::if_variable(
+            "=".to_string(),
+            ChestArgs::new()
+                .with_slot(0, self.clone().as_item())
+                .with_slot(1, other.clone().as_item())
+        ));
+        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        run();
+        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+        ElseHandle
+    }
 }
 
 pub trait TypedVarItem: VarItem {}

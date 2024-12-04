@@ -2,7 +2,7 @@ use std::ops::{Add, Div, Mul, Sub};
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::codetemplate::args::{ChestArgs, Item, NamedData};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 
 #[derive(Debug, Clone)]
 pub struct Number(pub(crate) Item);
@@ -15,6 +15,10 @@ impl VarItem for Number {
 
     fn from_item(item: Item) -> Self {
         Number(item)
+    }
+
+    fn default() -> Self {
+        Number::new("0")
     }
 }
 
@@ -113,5 +117,55 @@ impl Div for Number {
                 .with_slot(2, other.0),
         ));
         Number(result)
+    }
+}
+
+impl Number {
+    pub fn if_greater_than<F: FnOnce()>(&self, other: Number, run: F) {
+        push_block(TemplateBlock::if_variable(
+            ">".to_string(),
+            ChestArgs::new()
+                .with_slot(0, self.clone().as_item())
+                .with_slot(1, other.clone().as_item())
+        ));
+        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        run();
+        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+    }
+
+    pub fn if_less_than<F: FnOnce()>(&self, other: Number, run: F) {
+        push_block(TemplateBlock::if_variable(
+            "<".to_string(),
+            ChestArgs::new()
+                .with_slot(0, self.clone().as_item())
+                .with_slot(1, other.clone().as_item())
+        ));
+        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        run();
+        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+    }
+
+    pub fn if_greater_than_or_equal<F: FnOnce()>(&self, other: Number, run: F) {
+        push_block(TemplateBlock::if_variable(
+            ">=".to_string(),
+            ChestArgs::new()
+                .with_slot(0, self.clone().as_item())
+                .with_slot(1, other.clone().as_item())
+        ));
+        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        run();
+        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
+    }
+
+    pub fn if_less_than_or_equal<F: FnOnce()>(&self, other: Number, run: F) {
+        push_block(TemplateBlock::if_variable(
+            "<=".to_string(),
+            ChestArgs::new()
+                .with_slot(0, self.clone().as_item())
+                .with_slot(1, other.clone().as_item())
+        ));
+        push_block(TemplateBlock::bracket(BracketDirection::Start, BracketType::Normal));
+        run();
+        push_block(TemplateBlock::bracket(BracketDirection::End, BracketType::Normal));
     }
 }

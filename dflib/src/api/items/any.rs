@@ -1,4 +1,6 @@
+
 use crate::api::items::{TypedVarItem, VarItem};
+use crate::api::items::number::Number;
 use crate::codetemplate::args::{Item, NamedData};
 
 #[derive(Debug, Clone)]
@@ -12,6 +14,10 @@ impl VarItem for Any {
     fn from_item(item: Item) -> Self {
         Any(item)
     }
+
+    fn default() -> Self {
+        Number::default().into()
+    }
 }
 
 impl<T: TypedVarItem> From<T> for Any {
@@ -19,6 +25,7 @@ impl<T: TypedVarItem> From<T> for Any {
         Any(value.as_item())
     }
 }
+
 
 impl Any {
     pub fn empty() -> Self {
