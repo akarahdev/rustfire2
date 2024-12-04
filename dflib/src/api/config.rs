@@ -31,10 +31,20 @@ pub enum PlotRank {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-#[repr(u16)]
 pub enum PlotSize {
-    Basic = 24,
-    Large = 49,
-    Massive = 148,
-    Mega = 149
+    Basic,
+    Large,
+    Massive,
+    Mega
+}
+
+impl PlotSize {
+    pub fn max_blocks(&self) -> usize {
+        match self {
+            PlotSize::Basic => 24,
+            PlotSize::Large => 49,
+            PlotSize::Massive => 149,
+            PlotSize::Mega => 149
+        }
+    }
 }

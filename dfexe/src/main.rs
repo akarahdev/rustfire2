@@ -12,6 +12,9 @@ use crate::safelist::SafeList;
 
 registry!({
     PlayerEvent::Join.declare(on_join);
+    PlayerEvent::Leave.declare(on_join);
+    PlayerEvent::LeftClick.declare(on_join);
+    PlayerEvent::RightClick.declare(on_join);
 });
 
 pub fn on_join() {

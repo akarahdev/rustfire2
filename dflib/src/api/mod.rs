@@ -118,7 +118,7 @@ pub fn done() {
 
     let templates = TEMPLATE_REPOSITORY.lock().unwrap().clone();
 
-    let max_length = COMPILER_CONFIG.plot.size as u16;
+    let max_length = COMPILER_CONFIG.plot.size.max_blocks();
     for template in &templates {
         if template.blocks.len() > max_length as usize {
             panic!("Error on block {:?}: {} blocks exceeds max length of {}",
