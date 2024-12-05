@@ -2,8 +2,8 @@ use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
 use crate::core::args::{ChestArgs, NamedData, TemplateItem};
 use crate::core::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
+use crate::items::{set_variable, Location};
 use std::ops::{Add, Div, Mul, Sub};
-use crate::items::{set_variable_new, Location};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Number(pub(crate) TemplateItem);
@@ -73,7 +73,7 @@ impl Number {
     }
 }
 
-set_variable_new! {
+set_variable! {
     impl Number; fn (perlin => "Noise") -> Number;
 
     arg location: Location;

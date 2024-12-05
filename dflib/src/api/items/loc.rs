@@ -23,40 +23,40 @@ impl VarItem for Location {
 }
 
 set_variable! {
-    impl Location; fn (with_x => "SetCoord") -> Location;
+    self impl Location; fn (with_x => "SetCoord") -> Location;
     arg coord: Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "X";
 }
 
 set_variable! {
-    impl Location; fn (x => "GetCoord") -> Number;
+    self impl Location; fn (x => "GetCoord") -> Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "X";
 }
 
 set_variable! {
-    impl Location; fn (with_y => "SetCoord") -> Location;
+    self impl Location; fn (with_y => "SetCoord") -> Location;
     arg coord: Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "Y";
 }
 
 set_variable! {
-    impl Location; fn (y => "GetCoord") -> Number;
+    self impl Location; fn (y => "GetCoord") -> Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "Y";
 }
 
 set_variable! {
-    impl Location; fn (with_z => "SetCoord") -> Location;
+    self impl Location; fn (with_z => "SetCoord") -> Location;
     arg coord: Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "Z";
 }
 
 set_variable! {
-    impl Location; fn (z => "GetCoord") -> Number;
+    self impl Location; fn (z => "GetCoord") -> Number;
     tag "Coordinate Type" => "Plot Coordinate";
     tag "Coordinate" => "Z";
 }

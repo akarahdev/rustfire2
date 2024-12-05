@@ -1,5 +1,5 @@
-use crate::items::{Item, Location};
 use crate::items::VarItem;
+use crate::items::{Item, Location};
 pub struct Plot;
 
 pub(crate) macro game_action(

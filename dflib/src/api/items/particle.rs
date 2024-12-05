@@ -23,48 +23,48 @@ impl VarItem for Particle {
 }
 
 set_variable! {
-    impl Particle; fn (with_amount => "SetParticleAmount") -> Particle;
+    self impl Particle; fn (with_amount => "SetParticleAmount") -> Particle;
     arg amount: Number;
 }
 
 set_variable! {
-    impl Particle; fn (with_spread => "SetParticleSprd") -> Particle;
+    self impl Particle; fn (with_spread => "SetParticleSprd") -> Particle;
     arg horizontal: Number;
     arg vertical: Number;
 }
 
 set_variable! {
-    impl Particle; fn (with_size => "SetParticleSize") -> Particle;
+    self impl Particle; fn (with_size => "SetParticleSize") -> Particle;
     arg size: Number;
 }
 
 set_variable! {
-    impl Particle; fn (with_material => "SetParticleMat") -> Particle;
+    self impl Particle; fn (with_material => "SetParticleMat") -> Particle;
     arg material: Item;
 }
 
 set_variable! {
-    impl Particle; fn (with_hex_color => "SetParticleColor") -> Particle;
+    self impl Particle; fn (with_hex_color => "SetParticleColor") -> Particle;
     arg color: String;
 }
 
 set_variable! {
-    impl Particle; fn (with_opacity => "SetParticleOpac") -> Particle;
+    self impl Particle; fn (with_opacity => "SetParticleOpac") -> Particle;
     arg opacity: Number;
 }
 
 set_variable! {
-    impl Particle; fn (with_motion => "SetParticleMotion") -> Particle;
+    self impl Particle; fn (with_motion => "SetParticleMotion") -> Particle;
     arg motion: Vector;
 }
 
 set_variable! {
-    impl Particle; fn (with_roll => "SetParticleRoll") -> Particle;
+    self impl Particle; fn (with_roll => "SetParticleRoll") -> Particle;
     arg roll: Number;
 }
 
 set_variable! {
-    impl Particle; fn (with_hex_fade_color => "SetParticleFade") -> Particle;
+    self impl Particle; fn (with_hex_fade_color => "SetParticleFade") -> Particle;
     arg color: String;
 }
 
