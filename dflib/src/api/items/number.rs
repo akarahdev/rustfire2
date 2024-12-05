@@ -3,6 +3,7 @@ use crate::api::{allocate_variable, push_block};
 use crate::core::args::{ChestArgs, NamedData, TemplateItem};
 use crate::core::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 use std::ops::{Add, Div, Mul, Sub};
+use crate::items::{set_variable_new, Location};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Number(pub(crate) TemplateItem);
@@ -72,6 +73,20 @@ impl Number {
     }
 }
 
+set_variable_new! {
+    impl Number; fn (perlin => "Noise") -> Number;
+
+    arg location: Location;
+    arg frequency: Number;
+    arg octaves: Number;
+    arg lacunarity: Number;
+    arg gain: Number;
+    arg seed: Number;
+
+    tag "Dimensions" => "3D";
+    tag "Return Type" => "Perlin";
+}
+
 impl Add for Number {
     type Output = Number;
 
@@ -110,7 +125,7 @@ impl Mul for Number {
     fn mul(self, other: Number) -> Number {
         let result = allocate_variable();
         push_block(TemplateBlock::set_variable(
-            "*".to_string(),
+            "x".to_string(),
             ChestArgs::new()
                 .with_slot(0, result.clone())
                 .with_slot(1, self.0)

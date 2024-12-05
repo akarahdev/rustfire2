@@ -5,6 +5,7 @@ pub mod headers;
 pub mod items;
 pub mod player;
 pub mod selections;
+pub mod plot;
 
 use crate::config::{Config, PlotRank};
 use crate::core::args::{TemplateItem, VarData};

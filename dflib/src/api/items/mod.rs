@@ -101,3 +101,28 @@ impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
         }
     }
 }
+
+pub(crate) macro set_variable_new(
+impl $inn:ty; fn ($name:ident => $action:expr) -> $out:ty;
+        $(arg $arg_name:ident : $arg_type:ty;)*
+        $(tag $tag_name:expr => $tag_value:expr;)*
+) {
+    impl $inn {
+        pub fn $name($($arg_name: $arg_type),*) -> $out {
+            let _v: Vec<&'static str> = vec![$($tag_value,)*];
+            let _length = _v.len() as u8;
+            let result = $crate::api::allocate_variable();
+            $crate::push_block($crate::core::template::TemplateBlock::set_variable(
+                $action.to_string(),
+                $crate::core::args::ChestArgs::new()
+                    .with_slot(0, result.clone())
+                    $(.with_slot(${index()}+1, $arg_name.as_item()))*
+                    $(
+                        .with_slot(26- (_length - ${index()} - 1),
+                            $crate::core::args::TemplateItem::block_tag($tag_value, $tag_name,
+                            $action, $crate::core::template::BlockType::SetVariable)))*
+            ));
+            <$out>::from_item(result)
+        }
+    }
+}
