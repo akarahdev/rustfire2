@@ -1,6 +1,7 @@
 use rustfire::headers::PlayerEvent;
-use rustfire::items::Component;
+use rustfire::items::{Component, Location, Number};
 use rustfire::registry;
+use rustfire::selections::{AllOf, Selection};
 use rustfire::selections::targets::EventDefault;
 
 registry!(main -> {
@@ -8,5 +9,8 @@ registry!(main -> {
 });
 
 pub fn on_join() {
-    EventDefault::player().send_message(Component::new("Hello world!"));
+    AllOf::player()
+        .distance_amount(Location::new_const(10.0, 50.0, 10.0), Number::new("3"))
+        .random()
+        .send_message(Component::new("Hello there!"));
 }

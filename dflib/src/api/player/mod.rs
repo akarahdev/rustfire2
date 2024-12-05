@@ -7,10 +7,12 @@ pub mod movement;
 pub mod world;
 pub mod visuals;
 
-use crate::api::selections::Selection;
+use crate::selections::{Selection, ActionTarget};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Player;
+
+impl ActionTarget for Player {}
 
 impl Selection for Player {
     type Base = Player;

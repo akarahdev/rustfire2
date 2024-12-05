@@ -1,21 +1,22 @@
 use crate::api::entity::Entity;
-use crate::api::items::number::Number;
-use crate::api::items::VarItem;
 use crate::api::player::Player;
 use crate::api::push_block;
 use crate::api::selections::Selection;
 use crate::core::args::{ChestArgs, TemplateItem};
 use crate::core::template::{BlockType, TemplateBlock};
 use std::ops::Deref;
+use crate::selections::ActionTarget;
 
+#[macro_export]
 macro_rules! impl_deref_for_sel {
     ($($name:ident),*) => {
         $(
-            impl<C: Selection<Base = C>> Deref for $name<C> {
-                type Target = <Self as Selection>::Base;
+            impl<C> std::ops::Deref for $name<C>
+                where C: ActionTarget {
+                type Target = C;
 
                 fn deref(&self) -> &Self::Target {
-                    self.selection_mechanism();
+                    self.clone().selection_mechanism();
                     &self.0
                 }
             }
@@ -33,9 +34,9 @@ impl_deref_for_sel!(
 );
 
 #[derive(Clone, Debug)]
-pub struct EventDefault<C: Selection>(pub(crate) C);
+pub struct EventDefault<C: ActionTarget>(pub(crate) C);
 
-impl<C: Selection> Selection for EventDefault<C> {
+impl<C: ActionTarget> Selection for EventDefault<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -68,9 +69,9 @@ impl EventDefault<Entity> {
 }
 
 #[derive(Clone, Debug)]
-pub struct EventKiller<C: Selection>(pub(crate) C);
+pub struct EventKiller<C: ActionTarget>(pub(crate) C);
 
-impl<C: Selection> Selection for EventKiller<C> {
+impl<C: ActionTarget> Selection for EventKiller<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -91,8 +92,8 @@ impl<C: Selection> Selection for EventKiller<C> {
 }
 
 #[derive(Clone, Debug)]
-pub struct EventDamager<C: Selection>(pub(crate) C);
-impl<C: Selection> Selection for EventDamager<C> {
+pub struct EventDamager<C: ActionTarget>(pub(crate) C);
+impl<C: ActionTarget> Selection for EventDamager<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -113,8 +114,8 @@ impl<C: Selection> Selection for EventDamager<C> {
 }
 
 #[derive(Clone, Debug)]
-pub struct EventVictim<C: Selection>(pub(crate) C);
-impl<C: Selection> Selection for EventVictim<C> {
+pub struct EventVictim<C: ActionTarget>(pub(crate) C);
+impl<C: ActionTarget> Selection for EventVictim<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -135,9 +136,9 @@ impl<C: Selection> Selection for EventVictim<C> {
 }
 
 #[derive(Clone, Debug)]
-pub struct EventShooter<C: Selection>(pub(crate) C);
+pub struct EventShooter<C: ActionTarget>(pub(crate) C);
 
-impl<C: Selection> Selection for EventShooter<C> {
+impl<C: ActionTarget> Selection for EventShooter<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -158,9 +159,9 @@ impl<C: Selection> Selection for EventShooter<C> {
 }
 
 #[derive(Clone, Debug)]
-pub struct EventProjectile<C: Selection>(pub(crate) C);
+pub struct EventProjectile<C: ActionTarget>(pub(crate) C);
 
-impl<C: Selection> Selection for EventProjectile<C> {
+impl<C: ActionTarget> Selection for EventProjectile<C> {
     type Base = <C as Selection>::Base;
 
     fn selection_mechanism(&self) {
@@ -180,26 +181,3 @@ impl<C: Selection> Selection for EventProjectile<C> {
     }
 }
 
-#[derive(Clone, Debug)]
-pub struct FilterRandomly<C: Selection>(pub(crate) C, pub(crate) Number);
-
-impl<C: Selection + Deref<Target = <C as Selection>::Base>> Deref for FilterRandomly<C> {
-    type Target = <C as Selection>::Base;
-
-    fn deref(&self) -> &Self::Target {
-        let r = self.0.deref();
-        self.selection_mechanism();
-        r
-    }
-}
-
-impl<C: Selection> Selection for FilterRandomly<C> {
-    type Base = <C as Selection>::Base;
-
-    fn selection_mechanism(&self) {
-        push_block(TemplateBlock::select_object(
-            "FilterRandom".to_string(),
-            ChestArgs::new().with_slot(0, self.1.as_item()),
-        ))
-    }
-}
