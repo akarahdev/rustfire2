@@ -1,5 +1,7 @@
+mod block;
+
 use crate::items::VarItem;
-use crate::items::{Item, Location};
+
 pub struct Plot;
 
 pub(crate) macro game_action(
@@ -24,9 +26,5 @@ fn $name:ident => $action:expr;
     }
 }
 
-game_action! {
-    fn set_block => "SetBlock";
 
-    arg block: Item;
-    arg loc: Location;
-}
+

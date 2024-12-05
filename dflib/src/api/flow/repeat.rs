@@ -45,7 +45,7 @@ impl Repeat {
     pub fn range<F: FnOnce(Number)>(start: Number, end: Number, step: Number, code: F) {
         let idx = allocate_variable();
         push_block(TemplateBlock::repeat(
-            "Multiple",
+            "Range",
             ChestArgs::new()
                 .with_slot(0, idx.clone())
                 .with_slot(1, start.as_item())

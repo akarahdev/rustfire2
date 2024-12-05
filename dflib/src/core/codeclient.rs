@@ -40,6 +40,7 @@ pub fn send_to_code_client(mut templates: Vec<Template>) {
                         >= COMPILER_CONFIG.plot.size.max_blocks())
                         || index >= templates.len() - 2
                     {
+                        let len = builder.len();
                         let json_encoded =
                             serde_json::to_string(&Template { blocks: builder }).unwrap();
 
@@ -52,10 +53,13 @@ pub fn send_to_code_client(mut templates: Vec<Template>) {
                         println!("Encoded: {}", &json_encoded);
                         println!("Base64: {}", &base64_encoded);
 
-                        websocket
-                            .0
-                            .send(Message::Text(format!("place {}", base64_encoded)))
-                            .unwrap();
+                        if len != 0 {
+                            websocket
+                                .0
+                                .send(Message::Text(format!("place {}", base64_encoded)))
+                                .unwrap();
+                        }
+                        
 
                         builder = template.blocks.clone();
                     } else {
