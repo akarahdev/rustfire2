@@ -1,16 +1,16 @@
 use crate::api::items::number::Number;
 use crate::api::items::{TypedVarItem, VarItem};
-use crate::codetemplate::args::{Item, NamedData};
+use crate::core::args::{TemplateItem, NamedData};
 
 #[derive(Debug, Clone, Copy)]
-pub struct Any(pub(crate) Item);
+pub struct Any(pub(crate) TemplateItem);
 
 impl VarItem for Any {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Any(item)
     }
 
@@ -21,12 +21,12 @@ impl VarItem for Any {
 
 impl Any {
     pub fn empty() -> Self {
-        Any(Item::Number {
+        Any(TemplateItem::Number {
             data: NamedData { name: "0" },
         })
     }
 
-    pub fn from_item(item: Item) -> Self {
+    pub fn from_item(item: TemplateItem) -> Self {
         Any(item)
     }
 

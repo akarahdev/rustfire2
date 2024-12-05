@@ -3,22 +3,22 @@ use crate::api::items::any::Any;
 use crate::api::items::dict::Dictionary;
 use crate::api::items::string::String;
 use crate::api::items::VarItem;
-use crate::codetemplate::args::Item;
-use crate::{comp, num, str};
-use crate::api::cf::control::Control;
-use crate::api::cf::handles::ElseHandle;
+use crate::core::args::TemplateItem;
+use crate::api::flow::control::Control;
+use crate::api::flow::handles::ElseHandle;
 use crate::api::headers::functions::Functions;
 use crate::api::selections::targets::EventDefault;
+use crate::items::{comp, num, str};
 
 #[derive(Copy, Clone)]
 pub struct Optional<T: VarItem>(Dictionary<String, Any>, PhantomData<T>);
 
 impl<T: VarItem> VarItem for Optional<T> {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone().as_item()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Optional(Dictionary(item, PhantomData), PhantomData)
     }
 

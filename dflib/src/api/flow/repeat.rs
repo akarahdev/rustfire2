@@ -4,8 +4,8 @@ use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 
 pub struct Repeat;
 
@@ -72,7 +72,7 @@ impl Repeat {
                 .with_slot(1, list.as_item())
                 .with_slot(
                     26,
-                    Item::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
+                    TemplateItem::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
                 ),
         ));
         push_block(TemplateBlock::bracket(
@@ -100,7 +100,7 @@ impl Repeat {
                 .with_slot(2, dict.as_item())
                 .with_slot(
                     26,
-                    Item::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
+                    TemplateItem::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
                 ),
         ));
         push_block(TemplateBlock::bracket(

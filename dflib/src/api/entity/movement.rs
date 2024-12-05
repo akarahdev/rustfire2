@@ -2,9 +2,9 @@ use crate::api::entity::Entity;
 use crate::api::items::loc::Location;
 use crate::api::items::VarItem;
 use crate::api::push_block;
-use crate::codetemplate::args::ChestArgs;
-use crate::codetemplate::args::Item as DFItem;
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::core::args::ChestArgs;
+use crate::core::args::TemplateItem as DFItem;
+use crate::core::template::{BlockType, TemplateBlock};
 
 impl Entity {
     pub fn teleport(&self, loc: Location) {

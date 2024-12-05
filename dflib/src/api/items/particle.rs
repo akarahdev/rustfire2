@@ -3,7 +3,7 @@ use crate::api::items::item::Item;
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::vec::Vector;
-use crate::codetemplate::args::{Item as DFItem, ParticleCluster, ParticleData};
+use crate::core::args::{TemplateItem as DFItem, ParticleCluster, ParticleData};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Particle(pub(crate) DFItem);

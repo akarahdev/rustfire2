@@ -1,5 +1,5 @@
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::{
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::{
     BlockId, BlockType, BracketDirection, BracketType, TemplateBlock,
 };
 
@@ -85,7 +85,7 @@ impl TemplateBlock {
             .data(event)
             .args(ChestArgs::new().with_slot(
                 26,
-                Item::block_tag("True", "Is Hidden", "dynamic", BlockType::Function),
+                TemplateItem::block_tag("True", "Is Hidden", "dynamic", BlockType::Function),
             ))
     }
 
@@ -102,7 +102,7 @@ impl TemplateBlock {
             .data(event)
             .args(ChestArgs::new().with_slot(
                 26,
-                Item::block_tag("True", "Is Hidden", "dynamic", BlockType::Process),
+                TemplateItem::block_tag("True", "Is Hidden", "dynamic", BlockType::Process),
             ))
     }
 
@@ -114,7 +114,7 @@ impl TemplateBlock {
                 ChestArgs::new()
                     .with_slot(
                         25,
-                        Item::block_tag(
+                        TemplateItem::block_tag(
                             "Don't copy",
                             "Local Variables",
                             "dynamic",
@@ -123,7 +123,7 @@ impl TemplateBlock {
                     )
                     .with_slot(
                         26,
-                        Item::block_tag(
+                        TemplateItem::block_tag(
                             "With current targets",
                             "Target Mode",
                             "dynamic",

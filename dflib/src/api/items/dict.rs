@@ -1,11 +1,11 @@
 use crate::api::items::list::List;
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::TemplateBlock;
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::TemplateBlock;
 use std::marker::PhantomData;
 #[derive(Copy)]
-pub struct Dictionary<K: VarItem, V: VarItem>(pub(crate) Item, pub(crate) PhantomData<(K, V)>);
+pub struct Dictionary<K: VarItem, V: VarItem>(pub(crate) TemplateItem, pub(crate) PhantomData<(K, V)>);
 impl<K: VarItem, V: VarItem> TypedVarItem for Dictionary<K, V> {}
 
 impl<K: VarItem, V: VarItem> Clone for Dictionary<K, V> {
@@ -15,11 +15,11 @@ impl<K: VarItem, V: VarItem> Clone for Dictionary<K, V> {
 }
 
 impl<K: VarItem, V: VarItem> VarItem for Dictionary<K, V> {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Dictionary(item, PhantomData)
     }
 

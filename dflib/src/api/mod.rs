@@ -1,4 +1,4 @@
-pub mod cf;
+pub mod flow;
 pub mod config;
 pub mod entity;
 pub mod headers;
@@ -6,10 +6,10 @@ pub mod items;
 pub mod player;
 pub mod selections;
 
-use crate::api::config::{Config, PlotRank};
-use crate::codetemplate::args::{Item, VarData};
-use crate::codetemplate::codeclient::send_to_code_client;
-use crate::codetemplate::template::{Template, TemplateBlock};
+use crate::config::{Config, PlotRank};
+use crate::core::args::{TemplateItem, VarData};
+use crate::core::codeclient::send_to_code_client;
+use crate::core::template::{Template, TemplateBlock};
 use std::cell::UnsafeCell;
 use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -30,31 +30,25 @@ pub static THREAD_COUNTER: AtomicUsize = AtomicUsize::new(0);
 pub static COMPILER_CONFIG: LazyLock<Config> = LazyLock::new(|| read_config());
 
 /// Use this macro to register your DiamondFire events for plots.
-#[macro_export]
-macro_rules! registry {
-    ($b:block) => {
-        fn main() {
-            $b;
-            $crate::api::done();
-        }
-    };
+pub macro registry($main:ident -> $b:block) {
+    fn $main() {
+        $b;
+        $crate::api::done();
+    }
 }
 
 /// Use this macro to register DiamondFire events for libraries.
-#[macro_export]
-macro_rules! export_registry {
-    ($b:block) => {
-        fn registry() {
-            $b;
-        }
-    };
+pub macro export_registry($name:ident -> $b:block) {
+    fn $name() {
+        $b;
+    }
 }
 
 const VAR_STRING: [&'static str; 9999] = include!(concat!(env!("OUT_DIR"), "/variables.rs"));
 
-pub(crate) fn allocate_variable() -> Item {
+pub(crate) fn allocate_variable() -> TemplateItem {
     let fetched = VAR_INDEX.fetch_add(1, Ordering::AcqRel);
-    Item::Variable {
+    TemplateItem::Variable {
         data: VarData {
             name: &VAR_STRING[fetched],
             scope: "local",

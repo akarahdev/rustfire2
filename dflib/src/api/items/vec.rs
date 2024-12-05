@@ -1,19 +1,19 @@
 use crate::api::items::number::Number;
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item, VecData};
-use crate::codetemplate::template::TemplateBlock;
+use crate::core::args::{ChestArgs, TemplateItem, VecData};
+use crate::core::template::TemplateBlock;
 
 #[derive(Debug, Clone, Copy)]
-pub struct Vector(pub(crate) Item);
+pub struct Vector(pub(crate) TemplateItem);
 impl TypedVarItem for Vector {}
 
 impl VarItem for Vector {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Vector(item)
     }
 
@@ -24,7 +24,7 @@ impl VarItem for Vector {
 
 impl Vector {
     pub fn new_const(x: f64, y: f64, z: f64) -> Vector {
-        Vector(Item::Vector {
+        Vector(TemplateItem::Vector {
             data: VecData { x, y, z },
         })
     }

@@ -4,8 +4,8 @@ use crate::api::items::VarItem;
 use crate::api::player::Player;
 use crate::api::push_block;
 use crate::api::selections::Selection;
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::{BlockType, TemplateBlock};
 use std::ops::Deref;
 
 macro_rules! impl_deref_for_sel {
@@ -43,7 +43,7 @@ impl<C: Selection> Selection for EventDefault<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Default",
                     "Event Target",
                     "EventTarget",
@@ -78,7 +78,7 @@ impl<C: Selection> Selection for EventKiller<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Killer",
                     "Event Target",
                     "EventTarget",
@@ -100,7 +100,7 @@ impl<C: Selection> Selection for EventDamager<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Damager",
                     "Event Target",
                     "EventTarget",
@@ -122,7 +122,7 @@ impl<C: Selection> Selection for EventVictim<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Victim",
                     "Event Target",
                     "EventTarget",
@@ -145,7 +145,7 @@ impl<C: Selection> Selection for EventShooter<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Shooter",
                     "Event Target",
                     "EventTarget",
@@ -168,7 +168,7 @@ impl<C: Selection> Selection for EventProjectile<C> {
             "EventTarget".to_string(),
             ChestArgs::new().with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Projectile",
                     "Event Target",
                     "EventTarget",

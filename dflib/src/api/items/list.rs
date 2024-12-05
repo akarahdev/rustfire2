@@ -1,20 +1,20 @@
 use crate::api::items::number::Number;
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::{BlockType, TemplateBlock};
 use std::marker::PhantomData;
 
 #[derive(Debug, Clone, Copy)]
-pub struct List<T: VarItem>(Item, PhantomData<T>);
+pub struct List<T: VarItem>(TemplateItem, PhantomData<T>);
 impl<T: VarItem> TypedVarItem for List<T> {}
 
 impl<T: VarItem> VarItem for List<T> {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         List(item, PhantomData)
     }
 
@@ -176,7 +176,7 @@ impl<T: VarItem> List<T> {
             "SortList".to_string(),
             ChestArgs::new().with_slot(0, self.as_item()).with_slot(
                 26,
-                Item::block_tag(
+                TemplateItem::block_tag(
                     "Ascending",
                     "Sort Order",
                     "SortList",

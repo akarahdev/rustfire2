@@ -1,7 +1,7 @@
 use crate::api::items::VarItem;
 use crate::api::{allocate_variable, push_block, start_new_template};
-use crate::codetemplate::args::Item;
-use crate::codetemplate::template::TemplateBlock;
+use crate::core::args::TemplateItem;
+use crate::core::template::TemplateBlock;
 use std::sync::mpsc::channel;
 use std::sync::Arc;
 
@@ -9,7 +9,7 @@ pub struct Functions;
 
 impl Functions {
     pub fn allocate_name() -> &'static str {
-        let Item::Variable { data } = allocate_variable() else {
+        let TemplateItem::Variable { data } = allocate_variable() else {
             unreachable!();
         };
         data.name

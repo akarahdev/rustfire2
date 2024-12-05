@@ -1,7 +1,7 @@
 pub mod targets;
 
-use crate::api::items::number::Number;
-use crate::api::selections::targets::FilterRandomly;
+use crate::items::number::Number;
+use crate::selections::targets::FilterRandomly;
 use std::fmt::Debug;
 
 pub trait Selection: Clone + Debug {

@@ -1,9 +1,9 @@
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::{TypedVarItem, VarItem};
-use crate::api::{allocate_variable, push_block, Item as DFItem};
-use crate::codetemplate::args::ChestArgs;
-use crate::codetemplate::template::TemplateBlock;
+use crate::api::{allocate_variable, push_block, TemplateItem as DFItem};
+use crate::core::args::ChestArgs;
+use crate::core::template::TemplateBlock;
 
 #[derive(Clone, Debug, Copy)]
 pub struct Item(pub(crate) DFItem);

@@ -1,8 +1,8 @@
 use crate::api::items::number::Number;
 use crate::api::items::VarItem;
 use crate::api::push_block;
-use crate::codetemplate::args::{ChestArgs, Item};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem};
+use crate::core::template::{BlockType, TemplateBlock};
 
 pub struct Control;
 
@@ -12,7 +12,7 @@ impl Control {
             "Wait",
             ChestArgs::new().with_slot(0, dur.as_item()).with_slot(
                 26,
-                Item::block_tag("Ticks", "Time Unit", "Wait", BlockType::Control),
+                TemplateItem::block_tag("Ticks", "Time Unit", "Wait", BlockType::Control),
             ),
         ));
     }

@@ -1,7 +1,7 @@
 #![allow(unused)]
 
 use crate::api::COMPILER_CONFIG;
-use crate::codetemplate::template::{Template, TemplateBlock};
+use crate::core::template::{Template, TemplateBlock};
 use base64::alphabet::STANDARD;
 use base64::engine::{GeneralPurpose, GeneralPurposeConfig};
 use base64::Engine;

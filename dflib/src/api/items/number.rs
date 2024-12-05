@@ -1,19 +1,19 @@
 use crate::api::items::{TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item, NamedData};
-use crate::codetemplate::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem, NamedData};
+use crate::core::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Debug, Clone, Copy)]
-pub struct Number(pub(crate) Item);
+pub struct Number(pub(crate) TemplateItem);
 impl TypedVarItem for Number {}
 
 impl VarItem for Number {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Number(item)
     }
 
@@ -24,7 +24,7 @@ impl VarItem for Number {
 
 impl Number {
     pub fn new(raw: &'static str) -> Number {
-        Number(Item::Number {
+        Number(TemplateItem::Number {
             data: NamedData { name: raw },
         })
     }
@@ -39,7 +39,7 @@ impl Number {
                 .with_slot(2, max.as_item())
                 .with_slot(
                     26,
-                    Item::block_tag(
+                    TemplateItem::block_tag(
                         "Whole number",
                         "Rounding Mode",
                         "RandomNumber",
@@ -60,7 +60,7 @@ impl Number {
                 .with_slot(2, max.as_item())
                 .with_slot(
                     26,
-                    Item::block_tag(
+                    TemplateItem::block_tag(
                         "Decimal number",
                         "Rounding Mode",
                         "RandomNumber",

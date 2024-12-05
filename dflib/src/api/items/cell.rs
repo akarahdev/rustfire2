@@ -2,8 +2,8 @@ use std::marker::PhantomData;
 use std::ops::Deref;
 use crate::api::{allocate_variable, push_block};
 use crate::api::items::VarItem;
-use crate::codetemplate::args::{ChestArgs, Item as DFItem};
-use crate::codetemplate::template::{Template, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem as DFItem};
+use crate::core::template::{Template, TemplateBlock};
 
 #[derive(Copy, Clone)]
 pub struct Cell<T: VarItem>(DFItem, PhantomData<T>);

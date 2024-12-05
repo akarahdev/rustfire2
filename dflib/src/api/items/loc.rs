@@ -1,19 +1,19 @@
 use crate::api::items::number::Number;
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::codetemplate::args::{ChestArgs, Item, LocData, LocValue};
-use crate::codetemplate::template::{BlockType, TemplateBlock};
+use crate::core::args::{ChestArgs, TemplateItem, LocData, LocValue};
+use crate::core::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone, Copy)]
-pub struct Location(pub(crate) Item);
+pub struct Location(pub(crate) TemplateItem);
 impl TypedVarItem for Location {}
 
 impl VarItem for Location {
-    fn as_item(&self) -> Item {
+    fn as_item(&self) -> TemplateItem {
         self.0.clone()
     }
 
-    fn from_item(item: Item) -> Self {
+    fn from_item(item: TemplateItem) -> Self {
         Location(item)
     }
 
@@ -63,7 +63,7 @@ set_variable! {
 
 impl Location {
     pub fn new_const(x: f64, y: f64, z: f64) -> Location {
-        Location(Item::Location {
+        Location(TemplateItem::Location {
             data: LocData {
                 is_block: false,
                 loc: LocValue {
@@ -78,7 +78,7 @@ impl Location {
     }
 
     pub fn new_const_angled(x: f64, y: f64, z: f64, pitch: f64, yaw: f64) -> Location {
-        Location(Item::Location {
+        Location(TemplateItem::Location {
             data: LocData {
                 is_block: false,
                 loc: LocValue {
@@ -103,7 +103,7 @@ impl Location {
                 .with_slot(3, z.as_item().clone())
                 .with_slot(
                     26,
-                    Item::block_tag(
+                    TemplateItem::block_tag(
                         "Plot coordinate",
                         "Coordinate Type",
                         "SetAllCoords",
@@ -127,7 +127,7 @@ impl Location {
                 .with_slot(5, yaw.as_item().clone())
                 .with_slot(
                     26,
-                    Item::block_tag(
+                    TemplateItem::block_tag(
                         "Plot coordinate",
                         "Coordinate Type",
                         "SetAllCoords",

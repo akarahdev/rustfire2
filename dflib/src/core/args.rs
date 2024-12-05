@@ -1,4 +1,4 @@
-use crate::codetemplate::template::BlockType;
+use crate::core::template::BlockType;
 use serde::Serialize;
 
 #[derive(Serialize, Debug, Clone)]
@@ -11,7 +11,7 @@ impl ChestArgs {
         ChestArgs { items: vec![] }
     }
 
-    pub fn with_slot(mut self, slot: u8, item: Item) -> Self {
+    pub fn with_slot(mut self, slot: u8, item: TemplateItem) -> Self {
         self.items.push(Argument { slot, item });
         self
     }
@@ -19,13 +19,13 @@ impl ChestArgs {
 
 #[derive(Serialize, Debug, Clone)]
 pub struct Argument {
-    item: Item,
+    item: TemplateItem,
     slot: u8,
 }
 
 #[derive(Serialize, Debug, Clone, Copy)]
 #[serde(tag = "id")]
-pub enum Item {
+pub enum TemplateItem {
     #[serde(rename = "txt")]
     String { data: NamedData },
     #[serde(rename = "comp")]
@@ -50,21 +50,21 @@ pub enum Item {
     Particle { data: ParticleData },
 }
 
-impl Item {
+impl TemplateItem {
     pub fn string(name: &'static str) -> Self {
-        Item::String {
+        TemplateItem::String {
             data: NamedData { name },
         }
     }
 
     pub fn number(name: &'static str) -> Self {
-        Item::Number {
+        TemplateItem::Number {
             data: NamedData { name },
         }
     }
 
     pub fn component(name: &'static str) -> Self {
-        Item::Component {
+        TemplateItem::Component {
             data: NamedData { name },
         }
     }
@@ -74,8 +74,8 @@ impl Item {
         tag: &'static str,
         action: &'static str,
         block: BlockType,
-    ) -> Item {
-        Item::BlockTag {
+    ) -> TemplateItem {
+        TemplateItem::BlockTag {
             data: BlockTagData {
                 option,
                 tag,

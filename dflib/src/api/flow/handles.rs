@@ -1,5 +1,5 @@
 use crate::api::push_block;
-use crate::codetemplate::template::{BracketDirection, BracketType, TemplateBlock};
+use crate::core::template::{BracketDirection, BracketType, TemplateBlock};
 
 pub struct ElseHandle;
 

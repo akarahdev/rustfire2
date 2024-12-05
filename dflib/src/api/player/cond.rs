@@ -2,8 +2,8 @@ use crate::api::items::item::Item;
 use crate::api::items::VarItem;
 use crate::api::player::Player;
 use crate::api::push_block;
-use crate::codetemplate::args::ChestArgs;
-use crate::codetemplate::template::{BracketDirection, BracketType, TemplateBlock};
+use crate::core::args::ChestArgs;
+use crate::core::template::{BracketDirection, BracketType, TemplateBlock};
 
 impl Player {
     pub fn is_holding<F: FnOnce()>(&self, item: Item, if_true: F) {
