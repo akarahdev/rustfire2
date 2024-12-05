@@ -1,7 +1,5 @@
 use crate::core::args::{ChestArgs, TemplateItem};
-use crate::core::template::{
-    BlockId, BlockType, BracketDirection, BracketType, TemplateBlock,
-};
+use crate::core::template::{BlockId, BlockType, BracketDirection, BracketType, TemplateBlock};
 
 impl TemplateBlock {
     pub const fn block_id(mut self, id: BlockId) -> Self {

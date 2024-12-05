@@ -1,7 +1,7 @@
 use crate::api::items::number::Number;
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::core::args::{ChestArgs, TemplateItem, LocData, LocValue};
+use crate::core::args::{ChestArgs, LocData, LocValue, TemplateItem};
 use crate::core::template::{BlockType, TemplateBlock};
 
 #[derive(Debug, Clone, Copy)]

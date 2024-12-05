@@ -132,14 +132,14 @@ pub struct VecData {
 pub struct PotionData {
     pub pot: &'static str,
     pub dur: i64,
-    pub amp: i64
+    pub amp: i64,
 }
 
 #[derive(Serialize, Debug, Clone, Copy)]
 pub struct SoundData {
     pub sound: &'static str,
     pub pitch: f64,
-    pub vol: f64
+    pub vol: f64,
 }
 
 #[derive(Serialize, Debug, Clone, Copy)]
@@ -152,12 +152,12 @@ pub struct GameValueData {
 #[derive(Serialize, Debug, Clone, Copy)]
 pub struct ParticleData {
     pub particle: &'static str,
-    pub cluster: ParticleCluster
+    pub cluster: ParticleCluster,
 }
 
 #[derive(Serialize, Debug, Clone, Copy)]
 pub struct ParticleCluster {
     pub amount: i64,
     pub horizontal: f64,
-    pub vertical: f64
+    pub vertical: f64,
 }

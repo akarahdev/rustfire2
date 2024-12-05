@@ -1,8 +1,8 @@
 use crate::api::config::PlotRank;
-use crate::api::items::VarItem;
 use crate::api::items::loc::Location;
 use crate::api::items::number::Number;
 use crate::api::items::particle::Particle;
+use crate::api::items::VarItem;
 use crate::api::player::player_action;
 
 player_action! {

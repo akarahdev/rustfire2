@@ -22,7 +22,7 @@ pub enum PlayerEvent {
     ChangeSlot,
 
     Respawn,
-    TameEntity
+    TameEntity,
 }
 
 impl PlayerEvent {
@@ -43,7 +43,7 @@ impl PlayerEvent {
             PlayerEvent::TameEntity => "TameEntity",
             PlayerEvent::Command => "Command",
             PlayerEvent::PackLoad => "PackLoad",
-            PlayerEvent::PackDecline => "PackDecline", 
+            PlayerEvent::PackDecline => "PackDecline",
             PlayerEvent::ViewVIPPerks => "ViewVIPPerks",
         }
         .to_string()

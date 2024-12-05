@@ -1,6 +1,6 @@
 use crate::api::items::number::Number;
 use crate::api::items::{TypedVarItem, VarItem};
-use crate::core::args::{TemplateItem, NamedData};
+use crate::core::args::{NamedData, TemplateItem};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Any(pub(crate) TemplateItem);

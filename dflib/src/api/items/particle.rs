@@ -1,9 +1,9 @@
-use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::api::items::item::Item;
 use crate::api::items::number::Number;
 use crate::api::items::string::String;
 use crate::api::items::vec::Vector;
-use crate::core::args::{TemplateItem as DFItem, ParticleCluster, ParticleData};
+use crate::api::items::{set_variable, TypedVarItem, VarItem};
+use crate::core::args::{ParticleCluster, ParticleData, TemplateItem as DFItem};
 
 #[derive(Debug, Clone, Copy)]
 pub struct Particle(pub(crate) DFItem);
@@ -17,7 +17,9 @@ impl VarItem for Particle {
         Particle(item)
     }
 
-    fn default() -> Self { Particle::new("Cloud") }
+    fn default() -> Self {
+        Particle::new("Cloud")
+    }
 }
 
 set_variable! {
@@ -68,13 +70,15 @@ set_variable! {
 
 impl Particle {
     pub fn new(name: &'static str) -> Particle {
-        Particle(DFItem::Particle { data: ParticleData {
-            particle: name,
-            cluster: ParticleCluster {
-                amount: 0,
-                horizontal: 0.0,
-                vertical: 0.0
-            }
-        }})
+        Particle(DFItem::Particle {
+            data: ParticleData {
+                particle: name,
+                cluster: ParticleCluster {
+                    amount: 0,
+                    horizontal: 0.0,
+                    vertical: 0.0,
+                },
+            },
+        })
     }
 }

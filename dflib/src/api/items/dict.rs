@@ -5,7 +5,10 @@ use crate::core::args::{ChestArgs, TemplateItem};
 use crate::core::template::TemplateBlock;
 use std::marker::PhantomData;
 #[derive(Copy)]
-pub struct Dictionary<K: VarItem, V: VarItem>(pub(crate) TemplateItem, pub(crate) PhantomData<(K, V)>);
+pub struct Dictionary<K: VarItem, V: VarItem>(
+    pub(crate) TemplateItem,
+    pub(crate) PhantomData<(K, V)>,
+);
 impl<K: VarItem, V: VarItem> TypedVarItem for Dictionary<K, V> {}
 
 impl<K: VarItem, V: VarItem> Clone for Dictionary<K, V> {

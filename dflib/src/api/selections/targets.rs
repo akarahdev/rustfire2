@@ -4,8 +4,8 @@ use crate::api::push_block;
 use crate::api::selections::Selection;
 use crate::core::args::{ChestArgs, TemplateItem};
 use crate::core::template::{BlockType, TemplateBlock};
-use std::ops::Deref;
 use crate::selections::ActionTarget;
+use std::ops::Deref;
 
 #[macro_export]
 macro_rules! impl_deref_for_sel {
@@ -180,4 +180,3 @@ impl<C: ActionTarget> Selection for EventProjectile<C> {
         self.0.selection_mechanism()
     }
 }
-

@@ -4,10 +4,10 @@ pub mod data;
 pub mod inventory;
 pub mod items;
 pub mod movement;
-pub mod world;
 pub mod visuals;
+pub mod world;
 
-use crate::selections::{Selection, ActionTarget};
+use crate::selections::{ActionTarget, Selection};
 
 #[derive(Debug, Copy, Clone)]
 pub struct Player;

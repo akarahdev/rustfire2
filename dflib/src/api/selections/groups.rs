@@ -1,4 +1,3 @@
-use std::ops::Deref;
 use crate::api::push_block;
 use crate::core::args::{ChestArgs, TemplateItem};
 use crate::core::template::{BlockType, TemplateBlock};
@@ -6,6 +5,7 @@ use crate::entity::Entity;
 use crate::impl_deref_for_sel;
 use crate::player::Player;
 use crate::selections::{ActionTarget, FilterRandomly, Selection};
+use std::ops::Deref;
 
 #[derive(Clone, Debug)]
 pub struct AllOf<C: ActionTarget>(pub(crate) C);

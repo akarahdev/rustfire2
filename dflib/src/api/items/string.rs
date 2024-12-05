@@ -1,6 +1,6 @@
 use crate::api::items::{set_variable, TypedVarItem, VarItem};
 use crate::api::{allocate_variable, push_block};
-use crate::core::args::{ChestArgs, TemplateItem, NamedData};
+use crate::core::args::{ChestArgs, NamedData, TemplateItem};
 use crate::core::template::{BlockType, TemplateBlock};
 use std::ops::Add;
 

@@ -72,7 +72,12 @@ impl Repeat {
                 .with_slot(1, list.as_item())
                 .with_slot(
                     26,
-                    TemplateItem::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
+                    TemplateItem::block_tag(
+                        "True",
+                        "Allow List Changes",
+                        "ForEach",
+                        BlockType::Repeat,
+                    ),
                 ),
         ));
         push_block(TemplateBlock::bracket(
@@ -100,7 +105,12 @@ impl Repeat {
                 .with_slot(2, dict.as_item())
                 .with_slot(
                     26,
-                    TemplateItem::block_tag("True", "Allow List Changes", "ForEach", BlockType::Repeat),
+                    TemplateItem::block_tag(
+                        "True",
+                        "Allow List Changes",
+                        "ForEach",
+                        BlockType::Repeat,
+                    ),
                 ),
         ));
         push_block(TemplateBlock::bracket(

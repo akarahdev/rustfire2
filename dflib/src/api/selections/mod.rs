@@ -1,10 +1,10 @@
-pub mod targets;
 pub mod filters;
 pub mod groups;
+pub mod targets;
 
-pub use targets::*;
 pub use filters::*;
 pub use groups::*;
+pub use targets::*;
 
 use crate::items::{Location, Number};
 use std::fmt::Debug;
