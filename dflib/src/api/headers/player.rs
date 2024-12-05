@@ -5,11 +5,24 @@ use crate::core::template::TemplateBlock;
 pub enum PlayerEvent {
     Join,
     Leave,
+    Command,
+    PackLoad,
+    PackDecline,
+    ViewVIPPerks,
+
     RightClick,
     LeftClick,
     RightClickEntity,
     LeftClickEntity,
+    LoadCrossbow,
+
+    PlaceBlock,
+    BreakBlock,
+    SwapHands,
+    ChangeSlot,
+
     Respawn,
+    TameEntity
 }
 
 impl PlayerEvent {
@@ -22,6 +35,16 @@ impl PlayerEvent {
             PlayerEvent::RightClickEntity => "RightClickEntity",
             PlayerEvent::LeftClickEntity => "LeftClickEntity",
             PlayerEvent::Respawn => "Respawn",
+            PlayerEvent::LoadCrossbow => "LoadCrossbow",
+            PlayerEvent::PlaceBlock => "PlaceBlock",
+            PlayerEvent::BreakBlock => "BreakBlock",
+            PlayerEvent::SwapHands => "SwapHands",
+            PlayerEvent::ChangeSlot => "ChangeSlot",
+            PlayerEvent::TameEntity => "TameEntity",
+            PlayerEvent::Command => "Command",
+            PlayerEvent::PackLoad => "PackLoad",
+            PlayerEvent::PackDecline => "PackDecline", 
+            PlayerEvent::ViewVIPPerks => "ViewVIPPerks",
         }
         .to_string()
     }
