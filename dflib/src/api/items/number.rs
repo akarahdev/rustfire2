@@ -4,6 +4,7 @@ use crate::core::args::{ChestArgs, NamedData, TemplateItem};
 use crate::core::template::{BlockType, BracketDirection, BracketType, TemplateBlock};
 use crate::items::{set_variable, Location};
 use std::ops::{Add, Div, Mul, Sub};
+use crate::flow::ElseHandle;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Number(pub(crate) TemplateItem);
@@ -152,7 +153,7 @@ impl Div for Number {
 }
 
 impl Number {
-    pub fn if_greater_than<F: FnOnce()>(&self, other: Number, run: F) {
+    pub fn if_greater_than<F: FnOnce()>(&self, other: Number, run: F) -> ElseHandle {
         push_block(TemplateBlock::if_variable(
             ">".to_string(),
             ChestArgs::new()
@@ -168,6 +169,7 @@ impl Number {
             BracketDirection::End,
             BracketType::Normal,
         ));
+        ElseHandle
     }
 
     pub fn if_less_than<F: FnOnce()>(&self, other: Number, run: F) {
